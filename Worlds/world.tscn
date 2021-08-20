@@ -1,0 +1,97 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Player/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Final_Models/plateau.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/night_sky_lowres.png" type="Texture" id=3]
+[ext_resource path="res://Textures/smoke_lowres.png" type="Texture" id=4]
+[ext_resource path="res://Audio/Ambience/outside ambience.wav" type="AudioStream" id=5]
+[ext_resource path="res://Worlds/main_script.gd" type="Script" id=6]
+[ext_resource path="res://Final_Models/plateau_large.tscn" type="PackedScene" id=8]
+
+[sub_resource type="PanoramaSky" id=1]
+radiance_size = 0
+panorama = ExtResource( 3 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 1
+background_sky = SubResource( 1 )
+background_color = Color( 0.807843, 0.792157, 0.878431, 1 )
+fog_enabled = true
+fog_color = Color( 0.807843, 0.792157, 0.878431, 1 )
+fog_sun_color = Color( 0, 0, 0, 1 )
+fog_depth_begin = 4.0
+fog_depth_end = 20.0
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+max_value = 4.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.984962, 3.96364 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+lifetime_randomness = 0.1
+emission_shape = 2
+emission_box_extents = Vector3( 40, 5, 40 )
+spread = 100.0
+gravity = Vector3( 0, 1, 0 )
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_unshaded = true
+flags_vertex_lighting = true
+flags_do_not_receive_shadows = true
+vertex_color_use_as_albedo = true
+params_diffuse_mode = 1
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.913725, 0.866667, 1, 0.113725 )
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
+
+[node name="World" type="Spatial"]
+script = ExtResource( 6 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.998928, 0.0462871, 0, -0.0462871, -0.998928, 0, 5, 0 )
+light_color = Color( 0.588235, 0.533333, 0.682353, 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="Obstacles" type="Spatial" parent="."]
+
+[node name="PlateauLarge" parent="Obstacles" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.0433, 0 )
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.83386, 0 )
+visible = false
+speed_scale = 0.5
+visibility_aabb = AABB( -39.8621, -4, -40.0918, 79.7242, 8, 80.1836 )
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 9 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.131253, 0, 0.991349, 0, 1, 0, -0.991349, 0, 0.131253, 0, 0, 0 )
+
+[node name="plateau" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025157, -5.45689, -11.4676 )

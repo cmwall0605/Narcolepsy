@@ -1,0 +1,162 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Meshes/Shotgun.glb" type="PackedScene" id=1]
+[ext_resource path="res://Materials/shotgun.tres" type="Material" id=2]
+[ext_resource path="res://Audio/Shotgun/shotgun_dry_fire.wav" type="AudioStream" id=11]
+[ext_resource path="res://Audio/Shotgun/shotgun_fire.wav" type="AudioStream" id=12]
+[ext_resource path="res://Textures/muzzle_flash_main_lowres.png" type="Texture" id=13]
+[ext_resource path="res://Player/Weapons/shotgun.gd" type="Script" id=15]
+[ext_resource path="res://Meshes/shotgun_muzzle_flash.obj" type="ArrayMesh" id=16]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+params_cull_mode = 2
+albedo_texture = ExtResource( 13 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+emission_texture = ExtResource( 13 )
+
+[sub_resource type="Animation" id=2]
+length = 1.25
+step = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("OmniLight:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.01, 0.04 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.02, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.02, 0.039 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.15, 0.15, 0.15 ), Vector3( 0.15, 0.15, 0.15 ), Vector3( 0.3, 0.3, 0.3 ) ]
+}
+tracks/3/type = "audio"
+tracks/3/path = NodePath("../ShotgunFire")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 12 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
+[node name="Shotgun" instance=ExtResource( 1 )]
+script = ExtResource( 15 )
+
+[node name="ShotgunPoint" type="Spatial" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.040798, 0.679291 )
+
+[node name="PelletRayCast0" type="RayCast" parent="ShotgunPoint" index="0"]
+transform = Transform( 1, 8.73115e-11, 8.75389e-11, -1.16415e-10, 1, -2.32831e-10, -1.03682e-10, 6.98492e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast1" type="RayCast" parent="ShotgunPoint" index="1"]
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast2" type="RayCast" parent="ShotgunPoint" index="2"]
+transform = Transform( 1, 5.82077e-11, 1.69962e-11, -5.82077e-11, 1, -2.3283e-10, -1.69962e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast3" type="RayCast" parent="ShotgunPoint" index="3"]
+transform = Transform( 1, 8.73116e-11, 1.7394e-11, -8.73115e-11, 1, -4.6566e-10, -1.73941e-11, 4.65661e-10, 0.999999, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast4" type="RayCast" parent="ShotgunPoint" index="4"]
+transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast5" type="RayCast" parent="ShotgunPoint" index="5"]
+transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast6" type="RayCast" parent="ShotgunPoint" index="6"]
+transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast7" type="RayCast" parent="ShotgunPoint" index="7"]
+transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="PelletRayCast8" type="RayCast" parent="ShotgunPoint" index="8"]
+transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
+cast_to = Vector3( 0, 60, 0 )
+collision_mask = 6
+
+[node name="MuzzleFlash" type="Spatial" parent="." index="1"]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.040576, 0.679483 )
+
+[node name="Graphics" type="MeshInstance" parent="MuzzleFlash" index="0"]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+visible = false
+mesh = ExtResource( 16 )
+material/0 = SubResource( 1 )
+
+[node name="OmniLight" type="OmniLight" parent="MuzzleFlash" index="1"]
+visible = false
+light_color = Color( 1, 0.929412, 0.741176, 1 )
+light_energy = 1.2
+omni_range = 10.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MuzzleFlash" index="2"]
+anims/Fire = SubResource( 2 )
+
+[node name="Shotgun Model" parent="Shotgun/Skeleton" index="0"]
+material/0 = ExtResource( 2 )
+
+[node name="ShotgunFire" type="AudioStreamPlayer3D" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0410605, 0.679266 )
+stream = ExtResource( 12 )
+unit_db = -2.0
+unit_size = 10.0
+max_db = 1.0
+
+[node name="ShotgunDryFire" type="AudioStreamPlayer3D" parent="." index="5"]
+stream = ExtResource( 11 )
+unit_db = 1.0
+unit_size = 10.0
+max_db = 1.0
+
+[node name="ReloadTimer" type="Timer" parent="." index="6"]
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reloadtimer_timeout"]
