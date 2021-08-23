@@ -1,11 +1,11 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[ext_resource path="res://Textures/shoes_lowres.png" type="Texture" id=1]
+[ext_resource path="res://Textures/muzzle_flash_main_lowres.png" type="Texture" id=1]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 render_mode vertex_lighting, skip_vertex_transform, 
-			specular_phong, diffuse_lambert_wrap;
+			specular_phong, unshaded, cull_disabled, shadows_disabled;
 
 uniform sampler2D albedo: hint_black_albedo;
 uniform sampler2D specular: hint_black;
@@ -55,9 +55,9 @@ void fragment() {
 
 [resource]
 shader = SubResource( 1 )
-shader_param/jitter = 0.2
-shader_param/jitter_z_coordinate = true
+shader_param/jitter = 0.004
+shader_param/jitter_z_coordinate = false
 shader_param/jitter_depth_independent = true
-shader_param/affine_texture_mapping = true
-shader_param/alpha_scissor = 1.0
+shader_param/affine_texture_mapping = false
+shader_param/alpha_scissor = 0.121
 shader_param/albedo = ExtResource( 1 )

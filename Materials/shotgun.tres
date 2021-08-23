@@ -3,47 +3,61 @@
 [ext_resource path="res://Textures/shotgun_lowres.png" type="Texture" id=1]
 
 [sub_resource type="Shader" id=1]
-code = "shader_type spatial; 
-render_mode skip_vertex_transform, diffuse_lambert_wrap, ambient_light_disabled;
+code = "shader_type spatial;
+render_mode vertex_lighting, skip_vertex_transform, 
+			specular_phong, diffuse_lambert_wrap;
 
-uniform vec4 color : hint_color;
-uniform sampler2D albedoTex : hint_albedo;
-uniform float specular_intensity : hint_range(0, 1);
-uniform float resolution = 256;
-uniform float cull_distance = 1000;
-uniform vec2 uv_scale = vec2(1.0, 1.0);
-uniform vec2 uv_offset = vec2(.0, .0);
+uniform sampler2D albedo: hint_black_albedo;
+uniform sampler2D specular: hint_black;
+uniform sampler2D emission: hint_black;
 
-varying vec4 vertex_coordinates;
+uniform float jitter: hint_range(0.0, 1.0) = 0.2;
+uniform bool jitter_z_coordinate = true;
+uniform bool jitter_depth_independent = true;
+uniform bool affine_texture_mapping = true;
+uniform float alpha_scissor: hint_range(0.0, 1.0) = 1.0;
 
 void vertex() {
-	UV = UV * uv_scale + uv_offset;
-	
-	float vertex_distance = length((MODELVIEW_MATRIX * vec4(VERTEX, 1.0)));
-	
 	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	NORMAL = abs(vec4(NORMAL, 1.) * MODELVIEW_MATRIX).xyz;
-	float vPos_w = (PROJECTION_MATRIX * vec4(VERTEX, 1.0)).w;
-	VERTEX.xy = vPos_w * floor(resolution * VERTEX.xy / vPos_w) / resolution;
-	vertex_coordinates = vec4(UV * VERTEX.z, VERTEX.z, .0);
 	
-	if (vertex_distance > cull_distance)
-		VERTEX = vec3(.0);
+	float z_orig = VERTEX.z;
+	float i = (1.0 - jitter) * min(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y) / 2.0;
+	
+	if (jitter_depth_independent) {
+		float w = (PROJECTION_MATRIX * vec4(VERTEX, 1.0)).w;
+		VERTEX = round(VERTEX / w * i) / i * w;
+	} else {
+		VERTEX = round(VERTEX * i) / i;
+	}
+	
+	if (!jitter_z_coordinate) {
+		VERTEX.z = z_orig;
+	}
+
+	if (affine_texture_mapping) {
+		UV *= VERTEX.z;
+	}
 }
 
 void fragment() {
-	vec4 tex = texture(albedoTex, vertex_coordinates.xy / vertex_coordinates.z);
+	vec2 uv = UV;
 	
-	ALBEDO = tex.rgb * color.rgb;
-	SPECULAR = specular_intensity;
+	if (affine_texture_mapping) {
+		uv /= VERTEX.z;
+	}
+	
+	ALBEDO = texture(albedo, uv).rgb;
+	ALPHA = texture(albedo, uv).a;
+	ALPHA_SCISSOR = alpha_scissor;
+	EMISSION = texture(emission, uv).rgb;
+	SPECULAR = texture(specular, uv).r;
 }"
 
 [resource]
 shader = SubResource( 1 )
-shader_param/color = Color( 1, 1, 1, 1 )
-shader_param/specular_intensity = null
-shader_param/resolution = 256.0
-shader_param/cull_distance = 1000.0
-shader_param/uv_scale = Vector2( 1, 1 )
-shader_param/uv_offset = Vector2( 0, 0 )
-shader_param/albedoTex = ExtResource( 1 )
+shader_param/jitter = 0.2
+shader_param/jitter_z_coordinate = true
+shader_param/jitter_depth_independent = true
+shader_param/affine_texture_mapping = true
+shader_param/alpha_scissor = 1.0
+shader_param/albedo = ExtResource( 1 )

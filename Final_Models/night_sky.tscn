@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Meshes/night_sky.glb" type="PackedScene" id=1]
-[ext_resource path="res://Materials/nightsky.tres" type="Material" id=2]
+[ext_resource path="res://Materials/ps1_postprocess.tres" type="Material" id=2]
 
 [node name="night_sky" instance=ExtResource( 1 )]
 
