@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GUI/Main_Menu/menu_button.tscn" type="PackedScene" id=1]
+
+[node name="LoadGameButton" instance=ExtResource( 1 )]
+text = "Load Game"
+scene_to_load = "res://Scenes/Worlds/test.tscn"
+
+[node name="Label" parent="." index="0"]
+text = "Load Game"

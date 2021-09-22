@@ -19,21 +19,33 @@ export var RELOAD_TIME_END_F : float = 0.833
 var pellet_ray_array = []
 var current_mag_count
 var chambered = true
+var countdown = 2
 
-onready var shotgun_anim_player = get_node("AnimationPlayer")
-onready var shotgun_point = get_node("ShotgunPoint")
-onready var shotgun_fire_audio = get_node("ShotgunFire")
-onready var shotgun_dry_fire_audio = get_node("ShotgunDryFire")
-onready var muzzle_flash = get_node("MuzzleFlash")
-onready var anim_timer = get_node("ReloadTimer")
+onready var shotgun_anim_player = $AnimationPlayer
+onready var shotgun_point = $ShotgunPoint
+onready var shotgun_fire_audio = $AudioManager/ShotgunFire
+onready var shotgun_dry_fire_audio = $AudioManager/ShotgunDryFire
+onready var muzzle_flash = $MuzzleFlash
+onready var anim_timer = $ReloadTimer
+onready var shader_cache = $ShaderCache
 
 signal anim_step_complete
 
 func _ready():
+	muzzle_flash.visible = false
 	current_mag_count = MAGAZINE
 	for i in range (0, PELLET_COUNT):
 		var name = "PelletRayCast%d" % i
 		pellet_ray_array.append(shotgun_point.get_node(name))
+
+func _process(delta):
+	manage_shader_cache()
+
+func manage_shader_cache():
+	if countdown > 0:
+		countdown -= 1
+		if countdown == 0:
+			shader_cache.visible = false
 
 func get_name():
 	return NAME
@@ -64,11 +76,11 @@ func shoot_gun():
 		ray.force_raycast_update()
 		if ray.is_colliding():
 			var body = ray.get_collider()
-			if body.is_in_group("enemy"):
+			if body.is_in_group("enemy_collision"):
+				print("yy")
 				body.bullet_hit(DAMAGE, ray.global_transform)
 	muzzle_flash.get_node("AnimationPlayer").play("Fire")
 	shotgun_anim_player.play("Shoot")
-	print("bang")
 	if(current_mag_count > 0):
 		current_mag_count = current_mag_count - 1
 	else:

@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player/GUI/Pause_Menu/exit_button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/GUI/Pause_Menu/load_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player/GUI/Pause_Menu/options_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/GUI/player_gui.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Fonts/baskerville_24.tres" type="DynamicFont" id=5]
+
+[node name="GUI" type="CanvasLayer"]
+scale = Vector2( 4, 4 )
+transform = Transform2D( 4, 0, 0, 4, 0, 0 )
+follow_viewport_enable = true
+script = ExtResource( 4 )
+
+[node name="PauseMenu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1440.0
+margin_bottom = -810.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
+
+[node name="Menu" type="VBoxContainer" parent="PauseMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -51.0
+margin_top = -135.0
+margin_right = 51.0
+margin_bottom = 135.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PauseMenu/Menu"]
+margin_top = 90.0
+margin_right = 102.0
+margin_bottom = 114.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Paused"
+align = 1
+
+[node name="Buttons" type="VBoxContainer" parent="PauseMenu/Menu"]
+margin_top = 118.0
+margin_right = 102.0
+margin_bottom = 180.0
+alignment = 1
+
+[node name="LoadButton" parent="PauseMenu/Menu/Buttons" instance=ExtResource( 2 )]
+margin_right = 102.0
+
+[node name="OptionsButton" parent="PauseMenu/Menu/Buttons" instance=ExtResource( 3 )]
+margin_top = 22.0
+margin_right = 102.0
+margin_bottom = 40.0
+
+[node name="ExitButton" parent="PauseMenu/Menu/Buttons" instance=ExtResource( 1 )]
+margin_top = 44.0
+margin_right = 102.0
+margin_bottom = 62.0

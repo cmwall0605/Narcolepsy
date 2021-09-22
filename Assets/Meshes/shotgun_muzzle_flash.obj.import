@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/shotgun_muzzle_flash.obj-16cd5d990a66d9259028da9f34f7e393.mesh"
+
+[deps]
+
+files=[ "res://.import/shotgun_muzzle_flash.obj-16cd5d990a66d9259028da9f34f7e393.mesh" ]
+
+source_file="res://Assets/Meshes/shotgun_muzzle_flash.obj"
+dest_files=[ "res://.import/shotgun_muzzle_flash.obj-16cd5d990a66d9259028da9f34f7e393.mesh", "res://.import/shotgun_muzzle_flash.obj-16cd5d990a66d9259028da9f34f7e393.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -5,22 +5,29 @@ export var SPEED : float  = 350
 export var GRAVITY : float = 900
 export var MAX_TERMINAL_VELOCITY : float = 9000
 export var ROTATION_SPEED : float = 25
+
 # Walk animation
 export var WALK_PROGRESSION_RATE : float = 0.1
 export var AIM_PROGRESSION_RATE : float = 0.1
+
 # Camera
 export var CAMERA_FOV : float = 50.0
 export var CAMERA_ARM_Z_BASE_LENGTH : float = 4
 export var CAMERA_ZOOM : float = 1
 export var CAMERA_ZOOM_RATE : float = 0.1
+
 # Mouse Input
 export(float, 0.1, 1) var MOUSE_SENSITIVITY : float = 0.3
 export(float, -90, 0) var MIN_PITCH : float = -60
 export(float, 0, 90) var MAX_PITCH : float = 60
+
 # Finite State Machine Points
 enum State {IDLE, SPRINT, RELOAD_START, RELOAD_MID, RELOAD_END, AIM, USE, SHOOT, DEAD}
 enum AnimationState {IDLE, AIM, RELOAD}
 enum ReloadAnimationState {START, MID, END_E, END_F}
+
+# Game Stats
+export var HP : int = 100
 
 ## NODES ##
 # Camera
@@ -51,8 +58,6 @@ var current_weapon_blend_tree
 var reload_anim_fsm
 var walk_progression: float = 0
 var walk_anim_vector : Vector2 = Vector2.ZERO
-# Menu
-var in_menu : bool = false
 # State Machine
 var current_state = State.IDLE
 var aim_mode = false
@@ -67,10 +72,7 @@ func _ready():
 	camera.fov = CAMERA_FOV
 	set_equipment($Playermodel/Skeleton/WeaponHolder/Shotgun)
 	
-
-	
 func _process(delta):
-	handle_menu()
 	handle_state()
 	handle_zoom(delta)
 	handle_anim()
@@ -95,16 +97,6 @@ func set_equipment(item : Spatial):
 	current_gun = item
 	current_weapon_blend_tree = "%s_tree" % current_gun.get_name()
 	reload_anim_fsm = player_anim_tree.get("parameters/%s/reload_fsm/playback" % current_weapon_blend_tree)
-
-func handle_menu():
-	# Universal menu input check
-	if Input.is_action_just_pressed("ui_cancel"):
-		if !in_menu:
-			in_menu = true
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			in_menu = false
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func handle_state():
 	# State Check
@@ -181,7 +173,6 @@ func handle_state():
 			# AIM -> DEAD (TODO)
 			# AIM -> SHOOT
 			if Input.is_action_just_pressed("shoot_gun") && current_gun.can_shoot():
-				print(current_gun.can_shoot())
 				current_state = State.SHOOT
 				handle_shooting()
 			# AIM -> AIM
