@@ -2,8 +2,8 @@ extends KinematicBody
 ## CONSTANTS ##
 # Movement
 export var SPEED : float  = 350
-export var GRAVITY : float = 900
-export var MAX_TERMINAL_VELOCITY : float = 9000
+var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
+export var MAX_TERMINAL_VELOCITY : float = 980
 export var ROTATION_SPEED : float = 25
 
 # Walk animation
@@ -50,7 +50,7 @@ var current_gun : Spatial = null
 
 ## VARIABLES ##
 # Movement
-var velocity : Vector3 = Vector3.ZERO
+var movement_velocity : Vector3 = Vector3.ZERO
 var snap_vector : Vector3 = Vector3.ZERO
 var current_speed
 # Animation
@@ -64,7 +64,7 @@ var aim_mode = false
 # Reload animation
 var anim_step_complete = false
 # Ammo (0 = shotgun)
-var ammo_dict = {"12g": 5}
+var ammo_dict = {"12g": 15}
 
 func _ready():
 	current_speed = SPEED
@@ -216,13 +216,12 @@ func handle_shooting():
 	# Shoot animation handler
 	player_anim_tree.set("parameters/%s/shoot/active" % current_weapon_blend_tree, true)
 
-
 func handle_movement(delta):
 	var input_vector = get_input_vector()
+	var gravity_vel = apply_gravity()
 	apply_movement(input_vector, delta)
-	apply_gravity(delta)
-	if !(input_vector.length() == 0 && is_on_floor()):
-		velocity = move_and_slide_with_snap(velocity, -Vector3.UP, Vector3.UP, true)
+	print(movement_velocity + gravity_vel)
+	movement_velocity = move_and_slide(movement_velocity + gravity_vel, Vector3.UP)
 
 
 func get_input_vector():
@@ -250,15 +249,17 @@ func apply_movement(input_vector, delta):
 	if !aim_mode && input_vector.length() != 0:
 		var local_rot_input_vector = input_vector.rotated(Vector3.UP, cam_rot_h.rotation.y)
 		player_model.rotation.y = lerp_angle(player_model.rotation.y, atan2(local_rot_input_vector.x, local_rot_input_vector.z) + deg2rad(90), ROTATION_SPEED * delta)
-	velocity.x = global_rot_input_vector.x * current_speed * delta
-	velocity.z = global_rot_input_vector.z * current_speed * delta
+	movement_velocity.x = global_rot_input_vector.x * current_speed
+	movement_velocity.z = global_rot_input_vector.z * current_speed
 
-func apply_gravity(delta):
+func apply_gravity():
+	var g_vel = Vector3()
 	if is_on_floor():
-		velocity.y = 0
+		g_vel = -get_floor_normal() * GRAVITY
 	else:
-		velocity.y -= GRAVITY * delta
-		velocity.y = clamp(velocity.y, -MAX_TERMINAL_VELOCITY, MAX_TERMINAL_VELOCITY)
+		g_vel.y = -GRAVITY
+	print(g_vel)
+	return g_vel
 
 func handle_anim():
 	# Walk animation handler

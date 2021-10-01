@@ -175,7 +175,7 @@ nodes/ub_transition/node = SubResource( 33 )
 nodes/ub_transition/position = Vector2( 480, 200 )
 nodes/walk_sway_blend/node = SubResource( 34 )
 nodes/walk_sway_blend/position = Vector2( 280, 60 )
-node_connections = [ "output", 0, "shoot", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim" ]
+node_connections = [ "output", 0, "shoot", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim" ]
 
 [sub_resource type="AnimationNodeBlend2" id=36]
 filter_enabled = true
@@ -200,7 +200,7 @@ nodes/shotgun_tree/node = SubResource( 35 )
 nodes/shotgun_tree/position = Vector2( 240, 100 )
 nodes/upper_lower_blend/node = SubResource( 36 )
 nodes/upper_lower_blend/position = Vector2( 660, 120 )
-node_connections = [ "output", 0, "upper_lower_blend", "lb_aim_scale", 0, "lb_aim_blendspace", "lb_idle_scale", 0, "lb_idle_blendspace", "current_weapon", 0, "shotgun_tree", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition" ]
+node_connections = [ "output", 0, "upper_lower_blend", "lb_aim_scale", 0, "lb_aim_blendspace", "current_weapon", 0, "shotgun_tree", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition", "lb_idle_scale", 0, "lb_idle_blendspace" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=38]
 
@@ -208,9 +208,7 @@ node_connections = [ "output", 0, "upper_lower_blend", "lb_aim_scale", 0, "lb_ai
 pause_mode = 1
 collision_mask = 12
 script = ExtResource( 3 )
-SPEED = 250.0
-GRAVITY = 100.0
-MAX_TERMINAL_VELOCITY = 1000.0
+SPEED = 5.0
 ROTATION_SPEED = 10.0
 CAMERA_ZOOM = 3.0
 CAMERA_ZOOM_RATE = 10.0

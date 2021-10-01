@@ -8,17 +8,17 @@ export var DECT_RADIUS = 13
 export var CHASE_RADIUS = 15
 
 # Movement
-export var GRAVITY : float = 900
-export var MAX_TERMINAL_VELOCITY : float = 9000
+var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
+export var MAX_TERMINAL_VELOCITY : float = 980
 
 export var CHAR_RADIUS = 0.82
 export var CHAR_HEIGHT = 0.82
-export var MIN_DIST_TO_CHECK_LOS = 20.0
+export var MIN_DIST_TO_CHECK_LOS = 100.0
 
 # Stats
-export var HP : int = 225
+export var MAX_HP : int = 225
 export var BASE_DMG : int = 50
-export var MOVEMENT_SPEED : float = 360.0
+export var MOVEMENT_SPEED : float = 5
 
 # FSM Points
 enum State {IDLE, CHASE, SEARCH, RETURN, DEAD}
@@ -40,6 +40,8 @@ var pm_target : Spatial
 var nav : Navigation
 
 ## VARIABLES ##
+# Stats
+var current_hp = MAX_HP
 # Vision
 var is_looking : bool = false
 var has_seen_player : bool = false
@@ -76,7 +78,7 @@ func _physics_process(delta):
 
 func handle_state():
 	# ANY -> DEAD
-	if current_state != State.DEAD && HP <= 0:
+	if current_state != State.DEAD && current_hp <= 0:
 		handle_death()
 		current_state = State.DEAD
 	match current_state:
@@ -127,15 +129,17 @@ func handle_movement(delta):
 	if(current_state == State.CHASE || current_state == State.SEARCH):
 		update_move_vec()
 		if velocity.length() > 0.1:
-			var velocity_movement = velocity
-			velocity_movement.y = 0
 			anim_fsm.travel("move")
 			collision_shape.face_point(pm_target.global_transform.origin, delta, HEAD_SPEED)
 			model.face_point(pm_target.global_transform.origin, delta, HEAD_SPEED)
 		else:
 			anim_fsm.travel("idle_low")
-	if !is_on_floor() || current_state == State.CHASE || current_state == State.SEARCH:
-		move_and_slide_with_snap(velocity * MOVEMENT_SPEED * delta, -Vector3.UP, Vector3.UP, true)
+		move_and_slide(velocity * MOVEMENT_SPEED, Vector3.UP)
+
+func _bullet_hit(_damage, _dist):
+	is_shot = true
+	current_hp -= _damage
+	print(current_hp)
 
 func get_target_move_pos():
 	var actual_target = pm_target.global_transform.origin
@@ -155,15 +159,16 @@ func update_move_vec():
 
 	if straight_line_check:
 		var target_pos = get_target_move_pos()
-		velocity = our_pos.direction_to(target_pos).normalized()
+		velocity = our_pos.direction_to(target_pos)
+		velocity = velocity.normalized()
 	elif path_ind < path.size():
 		var next_path_pos = path[path_ind]
 		while our_pos.distance_squared_to(next_path_pos) < 0.1 * 0.1 and path_ind < path.size() - 1:
 			path_ind += 1
 			next_path_pos = path[path_ind]
-		velocity = our_pos.direction_to(next_path_pos).normalized()
-
-		last_straight_line_check = straight_line_check
+		velocity = our_pos.direction_to(next_path_pos)
+		velocity = velocity.normalized()
+	last_straight_line_check = straight_line_check
 
 func can_move_in_straight_line():
 	var pos = global_transform.origin
@@ -192,10 +197,16 @@ func update_path(_path: Array):
 	path = _path
 	path_ind = 0
 
-func apply_gravity(delta):
-	if !is_on_floor():
-		velocity.y -= GRAVITY * delta
-		velocity.y = clamp(velocity.y, -MAX_TERMINAL_VELOCITY, MAX_TERMINAL_VELOCITY)
+func apply_gravity():
+		var g_vel = Vector3()
+		if is_on_floor():
+			g_vel = -get_floor_normal() * GRAVITY
+		else:
+			g_vel.y -= GRAVITY
+			g_vel.y = clamp(g_vel.y, -MAX_TERMINAL_VELOCITY, MAX_TERMINAL_VELOCITY)
+		return g_vel
 
 func handle_death():
 	anim_fsm.travel("death")
+	self.set_process(false)
+	self.set_physics_process(false)

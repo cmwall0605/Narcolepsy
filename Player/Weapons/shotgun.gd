@@ -75,10 +75,11 @@ func shoot_gun():
 		ray.cast_to.z = rand_range(ROTATION_DEGREE, -ROTATION_DEGREE)
 		ray.force_raycast_update()
 		if ray.is_colliding():
-			var body = ray.get_collider()
+			var body = ray.get_collider().owner
+			print("Body: ",ray.get_collider().name)
+			print("Body Owner: ", body.name)
 			if body.is_in_group("enemy_collision"):
-				print("yy")
-				body.bullet_hit(DAMAGE, ray.global_transform)
+				body._bullet_hit(DAMAGE, ray.global_transform)
 	muzzle_flash.get_node("AnimationPlayer").play("Fire")
 	shotgun_anim_player.play("Shoot")
 	if(current_mag_count > 0):

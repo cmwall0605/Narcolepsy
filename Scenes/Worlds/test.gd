@@ -1,7 +1,6 @@
 extends Spatial
 
 # Get items which should already be in the world
-onready var ambience_audio = $Ambience
 onready var player_spawn = $PlayerSpawnLocation
 onready var marionette_spawn = $MarionetteSpawnLocation
 
@@ -12,7 +11,6 @@ onready var marionette_scene = preload("res://NPCs/Enemies/marionette.tscn")
 var player
 var gui
 var marionette
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,7 +27,3 @@ func _ready():
 	marionette = marionette_scene.instance()
 	add_child(marionette)
 	marionette.global_transform.origin = marionette_spawn.global_transform.origin
-
-	# Play Ambience
-	ambience_audio.play()
-
