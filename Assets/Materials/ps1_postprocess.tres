@@ -47,6 +47,6 @@ void fragment() {
 
 [resource]
 shader = SubResource( 1 )
-shader_param/color_depth = 6
+shader_param/color_depth = 8
 shader_param/dithering = true
 shader_param/resolution_scale = 3

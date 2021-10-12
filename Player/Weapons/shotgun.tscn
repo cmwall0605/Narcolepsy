@@ -53,7 +53,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.04
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.040576, 0.679483 )
 
 [node name="Graphics" type="MeshInstance" parent="MuzzleFlash" index="0"]
-transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.000741959, 2.98023e-08, 0.00322604 )
 mesh = ExtResource( 16 )
 material/0 = ExtResource( 3 )
 

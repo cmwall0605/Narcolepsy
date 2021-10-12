@@ -147,8 +147,9 @@ func _bullet_hit(_damage, _part, _pos):
 	is_shot = true
 	var particleType = regexHitName.search(_part)
 	var isHead = regexHead.search(_part)
-	current_hp -=  _damage * 2 if isHead else _damage
-	print("DMG: %s, HP: %s", (_damage * 2 if isHead else _damage), current_hp)
+	var damage = _damage * 2 if isHead else _damage
+	current_hp -=  damage
+	print("DMG: ", damage, "; HP: ", current_hp)
 
 func get_target_move_pos():
 	var actual_target = pm_target.global_transform.origin

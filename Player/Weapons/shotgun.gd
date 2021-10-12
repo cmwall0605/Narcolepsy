@@ -81,7 +81,8 @@ func shoot_gun():
 			print("Body: ",ray.get_collider().name)
 			print("Body Owner: ", body.owner.name)
 			if body.owner.is_in_group("enemy_collision"):
-				body.owner._bullet_hit(calc_dmg(ray.global_transform), ray.get_collider().name, null)
+				var distance = ray.global_transform.origin.distance_to(ray.get_collision_point())
+				body.owner._bullet_hit(calc_dmg(distance), ray.get_collider().name, null)
 	muzzle_flash.get_node("AnimationPlayer").play("Fire")
 	shotgun_anim_player.play("Shoot")
 	if(current_mag_count > 0):
@@ -90,7 +91,9 @@ func shoot_gun():
 		chambered = false
 
 func calc_dmg(dist):
-	return 10 * (1/((1/4)*dist+1))
+	var numerator = 10.0
+	var denominator = (0.25 * dist) + 1
+	return numerator/denominator
 
 func reload_gun_start():
 	anim_timer.set_wait_time(RELOAD_TIME_START)

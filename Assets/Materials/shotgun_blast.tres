@@ -55,7 +55,7 @@ void fragment() {
 
 [resource]
 shader = SubResource( 1 )
-shader_param/jitter = 0.004
+shader_param/jitter = 0.04
 shader_param/jitter_z_coordinate = false
 shader_param/jitter_depth_independent = true
 shader_param/affine_texture_mapping = false
