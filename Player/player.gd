@@ -220,7 +220,6 @@ func handle_movement(delta):
 	var input_vector = get_input_vector()
 	var gravity_vel = apply_gravity()
 	apply_movement(input_vector, delta)
-	print(movement_velocity + gravity_vel)
 	movement_velocity = move_and_slide(movement_velocity + gravity_vel, Vector3.UP)
 
 
@@ -258,7 +257,6 @@ func apply_gravity():
 		g_vel = -get_floor_normal() * GRAVITY
 	else:
 		g_vel.y = -GRAVITY
-	print(g_vel)
 	return g_vel
 
 func handle_anim():

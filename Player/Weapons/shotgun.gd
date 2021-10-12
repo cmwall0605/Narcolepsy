@@ -1,5 +1,6 @@
 extends Spatial
-
+#Scenes
+var pellet_scene = preload("res://Player/Weapons/pellet_raycast.tscn")
 #General
 export var NAME : String = "shotgun"
 export var MAGAZINE : float = 5
@@ -7,7 +8,7 @@ export var DAMAGE : float = 5
 var AMMO_TYPE : String = "12g"
 # Shooting
 export var SHOOT_TIME : float = 1.3
-export var PELLET_COUNT : float = 9
+export var PELLET_COUNT : float = 10
 export var HIT_SCAN_LENGTH : int = 80
 export var ROTATION_DEGREE : int = 7
 # Reload
@@ -35,8 +36,9 @@ func _ready():
 	muzzle_flash.visible = false
 	current_mag_count = MAGAZINE
 	for i in range (0, PELLET_COUNT):
-		var name = "PelletRayCast%d" % i
-		pellet_ray_array.append(shotgun_point.get_node(name))
+		var ray = pellet_scene.instance()
+		shotgun_point.add_child(ray)
+		pellet_ray_array.append(ray)
 
 func _process(delta):
 	manage_shader_cache()
@@ -75,17 +77,20 @@ func shoot_gun():
 		ray.cast_to.z = rand_range(ROTATION_DEGREE, -ROTATION_DEGREE)
 		ray.force_raycast_update()
 		if ray.is_colliding():
-			var body = ray.get_collider().owner
+			var body = ray.get_collider()
 			print("Body: ",ray.get_collider().name)
-			print("Body Owner: ", body.name)
-			if body.is_in_group("enemy_collision"):
-				body._bullet_hit(DAMAGE, ray.global_transform)
+			print("Body Owner: ", body.owner.name)
+			if body.owner.is_in_group("enemy_collision"):
+				body.owner._bullet_hit(calc_dmg(ray.global_transform), ray.get_collider().name, null)
 	muzzle_flash.get_node("AnimationPlayer").play("Fire")
 	shotgun_anim_player.play("Shoot")
 	if(current_mag_count > 0):
 		current_mag_count = current_mag_count - 1
 	else:
 		chambered = false
+
+func calc_dmg(dist):
+	return 10 * (1/((1/4)*dist+1))
 
 func reload_gun_start():
 	anim_timer.set_wait_time(RELOAD_TIME_START)

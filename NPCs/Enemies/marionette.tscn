@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://Assets/Meshes/marionette.glb" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Materials/vines.tres" type="Material" id=2]
@@ -69,7 +69,7 @@ states/move/position = Vector2( 771, 82 )
 transitions = [ "idle_high", "high_to_low", SubResource( 8 ), "high_to_low", "idle_low", SubResource( 9 ), "idle_low", "death", SubResource( 10 ), "move", "death", SubResource( 11 ), "attack", "death", SubResource( 12 ), "move", "attack", SubResource( 13 ), "attack", "idle_low", SubResource( 14 ), "idle_low", "move", SubResource( 15 ), "move", "idle_low", SubResource( 16 ) ]
 start_node = "idle_high"
 end_node = "idle_high"
-graph_offset = Vector2( 295, 24 )
+graph_offset = Vector2( -183, -50 )
 
 [sub_resource type="AnimationNodeBlendTree" id=18]
 graph_offset = Vector2( 356, 74 )
@@ -80,123 +80,130 @@ node_connections = [ "output", 0, "monster_fsm" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=19]
 
-[sub_resource type="CapsuleShape" id=21]
-radius = 0.162984
-height = 0.0861465
+[sub_resource type="CapsuleShape" id=20]
+radius = 0.144238
+height = 0.002
 
-[sub_resource type="CapsuleShape" id=22]
+[sub_resource type="CapsuleShape" id=50]
+radius = 0.11142
+height = 0.157431
+
+[sub_resource type="BoxShape" id=51]
+extents = Vector3( 0.0995932, 0.148577, 0.00816889 )
+
+[sub_resource type="CapsuleShape" id=21]
 radius = 0.07117
 height = 0.103116
 
-[sub_resource type="CapsuleShape" id=23]
+[sub_resource type="CapsuleShape" id=22]
 radius = 0.265455
 height = 0.075964
 
-[sub_resource type="CapsuleShape" id=24]
+[sub_resource type="CapsuleShape" id=23]
 radius = 0.110924
 height = 0.075964
 
-[sub_resource type="CapsuleShape" id=25]
+[sub_resource type="CapsuleShape" id=24]
 radius = 0.0937174
 height = 0.161228
 
-[sub_resource type="CapsuleShape" id=26]
+[sub_resource type="CapsuleShape" id=25]
 radius = 0.0801564
 height = 0.163489
 
-[sub_resource type="CapsuleShape" id=27]
+[sub_resource type="CapsuleShape" id=26]
 radius = 0.0332591
 height = 0.307086
 
-[sub_resource type="CapsuleShape" id=28]
+[sub_resource type="CapsuleShape" id=27]
 radius = 0.0619635
 height = 0.445729
 
-[sub_resource type="CapsuleShape" id=29]
+[sub_resource type="CapsuleShape" id=28]
 radius = 0.0497885
 height = 0.438726
 
-[sub_resource type="CapsuleShape" id=30]
+[sub_resource type="CapsuleShape" id=29]
 radius = 0.039421
 height = 0.753025
 
-[sub_resource type="CapsuleShape" id=31]
+[sub_resource type="CapsuleShape" id=30]
 radius = 0.0569451
 height = 0.566485
 
-[sub_resource type="CapsuleShape" id=32]
+[sub_resource type="CapsuleShape" id=31]
 radius = 0.0548743
 height = 0.429842
 
-[sub_resource type="CapsuleShape" id=33]
+[sub_resource type="CapsuleShape" id=32]
 radius = 0.0278159
 height = 0.522393
 
-[sub_resource type="CapsuleShape" id=34]
+[sub_resource type="CapsuleShape" id=33]
 radius = 0.0147457
 height = 0.128751
 
-[sub_resource type="CapsuleShape" id=35]
+[sub_resource type="CapsuleShape" id=34]
 radius = 0.0591819
 height = 0.103116
 
-[sub_resource type="CapsuleShape" id=36]
+[sub_resource type="CapsuleShape" id=35]
 radius = 0.07117
 height = 0.488831
 
-[sub_resource type="CapsuleShape" id=37]
+[sub_resource type="CapsuleShape" id=36]
 radius = 0.00907975
 height = 0.282191
 
-[sub_resource type="CapsuleShape" id=38]
+[sub_resource type="CapsuleShape" id=37]
 radius = 0.0343005
 height = 0.112811
 
-[sub_resource type="CapsuleShape" id=39]
+[sub_resource type="CapsuleShape" id=38]
 radius = 0.00907975
 height = 0.150908
 
-[sub_resource type="CapsuleShape" id=40]
+[sub_resource type="CapsuleShape" id=39]
 radius = 0.031013
 height = 0.346396
 
-[sub_resource type="CapsuleShape" id=41]
+[sub_resource type="CapsuleShape" id=40]
 radius = 0.0204163
 height = 0.142562
 
-[sub_resource type="CapsuleShape" id=42]
+[sub_resource type="CapsuleShape" id=41]
 radius = 0.00550417
 height = 0.286964
 
-[sub_resource type="CapsuleShape" id=43]
+[sub_resource type="CapsuleShape" id=42]
 radius = 0.0263218
 height = 0.245819
 
-[sub_resource type="CapsuleShape" id=44]
+[sub_resource type="CapsuleShape" id=43]
 radius = 0.0180873
 height = 0.0909689
 
-[sub_resource type="CapsuleShape" id=45]
+[sub_resource type="CapsuleShape" id=44]
 radius = 0.0130644
 height = 0.208806
 
-[sub_resource type="CapsuleShape" id=46]
+[sub_resource type="CapsuleShape" id=45]
 radius = 0.00550417
 height = 0.166325
 
-[sub_resource type="CapsuleShape" id=47]
+[sub_resource type="CapsuleShape" id=46]
 radius = 0.0111005
 height = 0.159638
 
-[sub_resource type="CapsuleShape" id=48]
+[sub_resource type="CapsuleShape" id=47]
 radius = 0.0372996
 height = 0.579675
 
-[sub_resource type="CapsuleShape" id=49]
+[sub_resource type="CapsuleShape" id=48]
 radius = 0.0372996
 height = 1.01785
 
-[sub_resource type="CapsuleShape" id=50]
+[sub_resource type="CapsuleShape" id=49]
 radius = 0.0372996
 height = 0.991369
 
@@ -285,462 +292,475 @@ target_node = NodePath("../HeadMovementTargetY/HeadMovementTargetX/HeadMovementT
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.899609, 0 )
 bone_name = "head"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/HeadHitbox" index="0"]
+[node name="Head" type="Area" parent="MarionetteModel/Skeleton/HeadHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/HeadHitbox/Area" index="0"]
-transform = Transform( 1, -1.49011e-08, 1.49012e-08, 6.66134e-15, -1.03316e-07, -1, 7.10543e-15, 1, -7.35137e-08, -9.31323e-09, 0.173395, 0 )
-shape = SubResource( 21 )
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/HeadHitbox/Head" index="0"]
+transform = Transform( 1, -1.49011e-08, 1.49012e-08, 6.66134e-15, -1.03316e-07, -1, 7.10543e-15, 1, -7.35137e-08, -9.31323e-09, 0.215185, -0.056842 )
+shape = SubResource( 20 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="MarionetteModel/Skeleton/HeadHitbox/Head" index="1"]
+transform = Transform( 1, 0, 0, 7.88861e-31, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.158705, -0.028853 )
+shape = SubResource( 50 )
+
+[node name="Face" type="Area" parent="MarionetteModel/Skeleton/HeadHitbox" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/HeadHitbox/Face" index="0"]
+transform = Transform( 1, -9.96515e-08, 2.6077e-08, 4.91273e-08, 1, 2.23517e-08, 7.45058e-09, -1.2666e-07, 1, -0.000637032, 0.158486, 0.0930625 )
+shape = SubResource( 51 )
 
 [node name="NeckHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.754599, 0 )
 bone_name = "neck"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/NeckHitbox" index="0"]
+[node name="Neck" type="Area" parent="MarionetteModel/Skeleton/NeckHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/NeckHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/NeckHitbox/Neck" index="0"]
 transform = Transform( 1, 2.84217e-14, 2.98023e-08, 1.49012e-08, -1.3909e-08, -1, 0, 1, 1.053e-07, -1.7928e-08, 0.0926058, -1.58758e-07 )
-shape = SubResource( 22 )
+shape = SubResource( 21 )
 
 [node name="BodyHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0401565, 0 )
 bone_name = "body"
 
-[node name="UpperBodyArea" type="Area" parent="MarionetteModel/Skeleton/BodyHitbox" index="0"]
+[node name="UBody" type="Area" parent="MarionetteModel/Skeleton/BodyHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/BodyHitbox/UpperBodyArea" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/BodyHitbox/UBody" index="0"]
 transform = Transform( 1, 0, -1.09544e-15, -3.30872e-24, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.90921e-08, 0.427504, -1.27406e-08 )
-shape = SubResource( 23 )
+shape = SubResource( 22 )
 
-[node name="LowerBodyArea" type="Area" parent="MarionetteModel/Skeleton/BodyHitbox" index="1"]
+[node name="LBody" type="Area" parent="MarionetteModel/Skeleton/BodyHitbox" index="1"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/BodyHitbox/LowerBodyArea" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/BodyHitbox/LBody" index="0"]
 transform = Transform( 1, 0, -1.09544e-15, -3.30872e-24, -4.37114e-08, -1, 0, 1, -4.37114e-08, -4.19095e-09, 0.107578, -3.20607e-09 )
-shape = SubResource( 24 )
+shape = SubResource( 23 )
 
 [node name="ShoulderRightHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="6"]
 transform = Transform( 0.666008, -0.724905, -0.175911, 0.74304, 0.623917, 0.242113, -0.0657547, -0.291958, 0.954168, -0.0744851, 0.707227, -1.85015e-07 )
 bone_name = "shoulder.R"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/ShoulderRightHitbox" index="0"]
+[node name="VineSR" type="Area" parent="MarionetteModel/Skeleton/ShoulderRightHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/ShoulderRightHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/ShoulderRightHitbox/VineSR" index="0"]
 transform = Transform( 1, -2.98023e-08, -1.30385e-08, -1.30385e-08, -1.49012e-07, -1, -1.49012e-08, 1, -5.96046e-08, 0, 0.113586, 1.19209e-07 )
-shape = SubResource( 25 )
+shape = SubResource( 24 )
 
 [node name="VineTopHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="7"]
 transform = Transform( 0.592954, -0.384698, -0.707399, 0.75693, 0.565986, 0.326677, 0.274706, -0.729155, 0.626793, -0.195501, 0.811383, -0.0487397 )
 bone_name = "vine_top.R.001"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/VineTopHitbox" index="0"]
+[node name="VineT" type="Area" parent="MarionetteModel/Skeleton/VineTopHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/VineTopHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/VineTopHitbox/VineT" index="0"]
 transform = Transform( 1, 1.49012e-08, -2.98023e-08, -4.47035e-08, -1.49012e-07, -1, 2.98023e-08, 1, 5.96046e-08, 2.38419e-07, 0.121622, 1.19209e-07 )
-shape = SubResource( 26 )
+shape = SubResource( 25 )
 
 [node name="RightVineHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="8"]
 transform = Transform( 0.769576, -0.535227, 0.348258, 0.634861, 0.582743, -0.507309, 0.0685806, 0.611508, 0.78826, -0.195501, 0.811383, -0.0487397 )
 bone_name = "vine.R.001"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox" index="0"]
+[node name="VineR" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox/VineR" index="0"]
 transform = Transform( 1, -3.72529e-08, -1.86265e-08, 2.01166e-07, -5.96046e-08, -1, 3.72529e-08, 1, 0, 1.19209e-07, 0.297658, 2.38419e-07 )
-shape = SubResource( 27 )
+shape = SubResource( 26 )
 
 [node name="RightVineHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="9"]
 transform = Transform( 0.721581, 0.185356, 0.667056, 0.208679, 0.860455, -0.464832, -0.660131, 0.474615, 0.582209, -0.476528, 1.11736, 0.272339 )
 bone_name = "vine.R.002"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox2" index="0"]
+[node name="VineR2" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox2/VineR2" index="0"]
 transform = Transform( 1, -3.72529e-08, -1.86265e-08, 2.01166e-07, -5.96046e-08, -1, 3.72529e-08, 1, 0, 1.19209e-07, 0.297658, 2.38419e-07 )
-shape = SubResource( 28 )
+shape = SubResource( 27 )
 
 [node name="RightVineHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="10"]
 transform = Transform( 0.447849, -0.880381, -0.156077, 0.179249, -0.0826123, 0.980329, -0.875957, -0.467016, 0.12081, -0.37344, 1.59591, 0.536303 )
 bone_name = "vine.R.003"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox3" index="0"]
+[node name="VineR3" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox3/VineR3" index="0"]
 transform = Transform( 1, -3.72529e-08, -1.86265e-08, 2.01166e-07, -5.96046e-08, -1, 3.72529e-08, 1, 0, 1.19209e-07, 0.297658, 2.38419e-07 )
-shape = SubResource( 29 )
+shape = SubResource( 28 )
 
 [node name="RightVineHitbox4" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="11"]
 transform = Transform( -0.583658, -0.576453, 0.571878, 0.322383, -0.810904, -0.488368, 0.74526, -0.100677, 0.65913, -0.843792, 1.55178, 0.286796 )
 bone_name = "vine.R.004"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox4" index="0"]
+[node name="VineR4" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox4" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox4/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox4/VineR4" index="0"]
 transform = Transform( 1, 8.9407e-08, 7.45058e-09, 3.57628e-07, -2.16067e-07, -1, -2.98023e-08, 1, 2.98023e-08, 4.76837e-07, 0.436999, 2.38419e-07 )
-shape = SubResource( 30 )
+shape = SubResource( 29 )
 
 [node name="RightVineHitbox5" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="12"]
 transform = Transform( -0.171938, -0.394083, 0.902848, -0.457356, -0.779802, -0.427474, 0.872504, -0.486422, -0.0461589, -1.32504, 0.874793, 0.202745 )
 bone_name = "vine.R.005"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox5" index="0"]
+[node name="VineR5" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox5" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox5/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox5/VineR5" index="0"]
 transform = Transform( 1, -6.33299e-08, 0, 2.08616e-07, -8.75443e-08, -1, 2.6077e-08, 1, -4.47035e-08, -1.19209e-07, 0.297658, -2.38419e-07 )
-shape = SubResource( 31 )
+shape = SubResource( 30 )
 
 [node name="RightVineHitbox6" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="13"]
 transform = Transform( 0.34051, -0.806961, -0.482562, -0.116193, 0.473184, -0.873268, 0.933034, 0.353427, 0.067361, -1.57463, 0.380923, -0.10532 )
 bone_name = "vine.R.006"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox6" index="0"]
+[node name="VineR6" type="Area" parent="MarionetteModel/Skeleton/RightVineHitbox6" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox6/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineHitbox6/VineR6" index="0"]
 transform = Transform( 1, -8.19564e-08, 1.19209e-07, 1.19209e-07, 1.28523e-07, -1, 3.72529e-08, 1, -1.41561e-07, 0, 0.186547, -3.57628e-07 )
-shape = SubResource( 27 )
+shape = SubResource( 26 )
 
 [node name="RightVineTopHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="14"]
 transform = Transform( 0.626159, -0.0894925, -0.774542, 0.718374, 0.452378, 0.528482, 0.303091, -0.887325, 0.34755, -0.296089, 0.959373, -0.239394 )
 bone_name = "vine_top.R.002"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox" index="0"]
+[node name="VineRightTop" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox/VineRightTop" index="0"]
 transform = Transform( 1, 5.96046e-08, -2.98023e-08, -5.96046e-08, -3.27826e-07, -1, 2.98023e-08, 1, -2.68221e-07, 7.15256e-07, 0.250604, 2.38419e-07 )
-shape = SubResource( 32 )
+shape = SubResource( 31 )
 
 [node name="RightVineTopHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="15"]
 transform = Transform( 0.439789, -0.458247, -0.772396, 0.859183, -0.0357565, 0.510417, -0.261515, -0.888105, 0.377993, -0.340107, 1.18188, -0.675841 )
 bone_name = "vine_top.R.003"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox2" index="0"]
+[node name="VineRightTop2" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox2/VineRightTop2" index="0"]
 transform = Transform( 1, 2.23517e-08, 1.49012e-08, 0, -3.27826e-07, -1, -3.72529e-08, 1, -4.17233e-07, 2.38419e-07, 0.282943, 4.76837e-07 )
-shape = SubResource( 33 )
+shape = SubResource( 32 )
 
 [node name="RightVineTopHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="16"]
 transform = Transform( -0.689594, -0.560515, -0.458566, 0.319124, 0.333219, -0.887201, 0.650092, -0.758147, -0.0509119, -0.59609, 1.16191, -1.17195 )
 bone_name = "vine_top.R.004"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox3" index="0"]
+[node name="VineRightTop3" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox3/VineRightTop3" index="0"]
 transform = Transform( 1, -1.11759e-08, 0, -2.98023e-08, -3.8743e-07, -1, 1.86265e-08, 1, -4.28408e-07, 2.98023e-07, 0.0827255, 7.15256e-07 )
-shape = SubResource( 34 )
+shape = SubResource( 33 )
 
 [node name="RightVineTopHitbox4" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="17"]
 transform = Transform( 0.283447, -0.459133, -0.841935, 0.942722, 0.294416, 0.156824, 0.175876, -0.838162, 0.516286, -0.691737, 1.21877, -1.30132 )
 bone_name = "vine_top.R.005"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox4" index="0"]
+[node name="VineRightTop4" type="Area" parent="MarionetteModel/Skeleton/RightVineTopHitbox4" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox4/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightVineTopHitbox4/VineRightTop4" index="0"]
 transform = Transform( 1, -1.11759e-08, 0, -2.98023e-08, -3.8743e-07, -1, 1.86265e-08, 1, -4.28408e-07, 2.98023e-07, 0.0827255, 7.15256e-07 )
-shape = SubResource( 34 )
+shape = SubResource( 33 )
 
 [node name="LeftShoulderHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="18"]
 transform = Transform( 0.992699, -0.0684173, 0.0993348, 0.0725764, 0.996605, -0.0388734, -0.0963379, 0.045799, 0.994294, 0.193777, 0.588968, -2.00904e-07 )
 bone_name = "shoulder.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftShoulderHitbox" index="0"]
+[node name="VineLS" type="Area" parent="MarionetteModel/Skeleton/LeftShoulderHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftShoulderHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftShoulderHitbox/VineLS" index="0"]
 transform = Transform( 1, 0, 1.21072e-08, 1.49012e-08, -7.45058e-09, -1, 0, 1, 9.68575e-08, 0, 0.00104785, -1.71363e-07 )
-shape = SubResource( 35 )
+shape = SubResource( 34 )
 
 [node name="LeftUpperArmHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="19"]
 transform = Transform( 0.426087, 0.645784, -0.633572, -0.599051, 0.726192, 0.337317, 0.677929, 0.235816, 0.696278, 0.18787, 0.675021, 0.00395438 )
 bone_name = "upper_arm.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftUpperArmHitbox" index="0"]
+[node name="VineUA" type="Area" parent="MarionetteModel/Skeleton/LeftUpperArmHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftUpperArmHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftUpperArmHitbox/VineUA" index="0"]
 transform = Transform( 1, -1.19209e-07, 0, 1.49012e-08, 2.98023e-08, -1, 0, 1, 1.63913e-07, 1.19209e-07, 0.300912, -5.96046e-08 )
-shape = SubResource( 36 )
+shape = SubResource( 35 )
 
 [node name="LeftLowerArmHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="20"]
 transform = Transform( -0.706905, 0.637981, 0.305394, -0.705856, -0.663966, -0.246814, 0.045309, -0.390038, 0.919683, 0.581321, 1.11746, 0.147628 )
 bone_name = "lower_arm.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftLowerArmHitbox" index="0"]
+[node name="VineLA" type="Area" parent="MarionetteModel/Skeleton/LeftLowerArmHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLowerArmHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLowerArmHitbox/VineLA" index="0"]
 transform = Transform( 1, -8.19564e-08, -3.72529e-09, -1.11759e-08, 0, -1, 3.72529e-09, 1, 1.49012e-07, 7.15256e-07, 0.207847, 0 )
-shape = SubResource( 37 )
+shape = SubResource( 36 )
 
 [node name="LeftVineRightHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="21"]
 transform = Transform( -0.896833, -0.340237, 0.282719, 0.366903, -0.929136, 0.0457121, 0.247132, 0.144727, 0.958113, 0.815811, 0.873422, 0.00426967 )
 bone_name = "vine_right.L.001"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox" index="0"]
+[node name="VineLR" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox/VineLR" index="0"]
 transform = Transform( 1, -7.45058e-08, -4.09782e-08, -3.72529e-08, 2.98023e-08, -1, 0, 1, 1.19209e-07, 9.53674e-07, 0.110885, 0 )
-shape = SubResource( 38 )
+shape = SubResource( 37 )
 
 [node name="LeftVineRightHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="22"]
 transform = Transform( -0.454779, 0.870207, 0.189517, -0.876509, -0.399621, -0.268394, -0.157823, -0.288173, 0.944483, 0.7493, 0.691789, 0.0325617 )
 bone_name = "vine_right.L.002"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox2" index="0"]
+[node name="VineLR2" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox2/VineLR2" index="0"]
 transform = Transform( 1, -1.93715e-07, 2.01166e-07, 4.84288e-08, 5.96046e-08, -1, 4.47035e-08, 1, 2.38419e-07, 2.38419e-07, 0.124436, -5.96046e-08 )
-shape = SubResource( 37 )
+shape = SubResource( 36 )
 
 [node name="LeftVineRightHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="23"]
 transform = Transform( -0.7182, -0.0636903, 0.692916, 0.382606, -0.867903, 0.316792, 0.581207, 0.492633, 0.647696, 0.982928, 0.584501, -0.0448054 )
 bone_name = "vine_right.L.003"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox3" index="0"]
+[node name="VineLR3" type="Area" parent="MarionetteModel/Skeleton/LeftVineRightHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineRightHitbox3/VineLR3" index="0"]
 transform = Transform( 1, -1.19209e-07, 2.98023e-08, 0, 0, -1, 2.98023e-08, 1, 1.78814e-07, 5.66244e-07, 0.0794415, -3.57628e-07 )
-shape = SubResource( 39 )
+shape = SubResource( 38 )
 
 [node name="LeftVineMidHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="24"]
 transform = Transform( -0.730498, 0.354917, 0.583443, -0.657605, -0.135142, -0.741143, -0.184197, -0.925078, 0.332116, 0.815811, 0.873422, 0.00426973 )
 bone_name = "vine_mid.L.001"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox" index="0"]
+[node name="VineLM" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox/VineLM" index="0"]
 transform = Transform( 1, -5.58794e-08, 2.98023e-08, 0, 5.96046e-08, -1, 7.45058e-08, 1, 1.78814e-07, 9.53674e-07, 0.207847, -2.38419e-07 )
-shape = SubResource( 40 )
+shape = SubResource( 39 )
 
 [node name="LeftVineMidHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="25"]
 transform = Transform( -0.673559, 0.699484, 0.238832, -0.711907, -0.700839, 0.0448599, 0.198762, -0.13981, 0.970024, 0.957114, 0.819618, -0.36403 )
 bone_name = "vine_mid.L.002"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox2" index="0"]
+[node name="VineLM2" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox2/VineLM2" index="0"]
 transform = Transform( 1, -1.3411e-07, 7.45058e-09, -1.00583e-07, 7.45058e-08, -1, -2.98023e-08, 1, 1.49012e-07, -2.38419e-07, 0.0976697, -8.9407e-08 )
-shape = SubResource( 41 )
+shape = SubResource( 40 )
 
 [node name="LeftVineMidHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="26"]
 transform = Transform( -0.737516, 0.248904, 0.627788, -0.436031, 0.534364, -0.724108, -0.5157, -0.807776, -0.285571, 1.08371, 0.692772, -0.389334 )
 bone_name = "vine_mid.L.003"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox3" index="0"]
+[node name="VineLM3" type="Area" parent="MarionetteModel/Skeleton/LeftVineMidHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineMidHitbox3/VineLM3" index="0"]
 transform = Transform( 1, 0, 8.9407e-08, 8.9407e-08, 8.9407e-08, -1, -1.63913e-07, 1, 8.9407e-08, 1.43051e-06, 0.151298, 5.96046e-07 )
-shape = SubResource( 42 )
+shape = SubResource( 41 )
 
 [node name="LeftVineLeftHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="27"]
 transform = Transform( -0.876387, 0.364051, -0.315298, -0.364905, -0.0746821, 0.928045, 0.314308, 0.92838, 0.198294, 0.815811, 0.873422, 0.00426969 )
 bone_name = "vine_left.L.001"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox" index="0"]
+[node name="VineLL" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox/VineLL" index="0"]
 transform = Transform( 1, 0, 8.9407e-08, 8.9407e-08, 8.9407e-08, -1, -1.63913e-07, 1, 8.9407e-08, 1.43051e-06, 0.151298, 5.96046e-07 )
-shape = SubResource( 43 )
+shape = SubResource( 42 )
 
 [node name="LeftVineLeftHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="28"]
 transform = Transform( -0.996254, -0.0850704, 0.0154936, -0.051735, 0.72999, 0.681497, -0.0692852, 0.678143, -0.731657, 0.913505, 0.853381, 0.253401 )
 bone_name = "vine_left.L.002"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox2" index="0"]
+[node name="VineLL2" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox2/VineLL2" index="0"]
 transform = Transform( 1, -3.72529e-09, 1.04308e-07, 7.45058e-08, 5.96046e-08, -1, -1.63913e-07, 1, 8.9407e-08, 1.66893e-06, 0.0801005, 9.53674e-07 )
-shape = SubResource( 44 )
+shape = SubResource( 43 )
 
 [node name="LeftVineLeftHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="29"]
 transform = Transform( -0.639962, 0.174972, 0.748219, -0.125852, 0.936713, -0.326695, -0.758029, -0.303238, -0.577441, 0.901554, 0.955929, 0.348666 )
 bone_name = "vine_left.L.003"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox3" index="0"]
+[node name="VineLL3" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox3/VineLL3" index="0"]
 transform = Transform( 0.999999, 0, 2.98023e-08, 5.96046e-08, 8.9407e-08, -0.999999, -1.19209e-07, 1, -2.98023e-08, 1.43051e-06, 0.111021, 2.98023e-07 )
-shape = SubResource( 45 )
+shape = SubResource( 44 )
 
 [node name="LeftVineLeftHitbox4" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="30"]
 transform = Transform( -0.101975, 0.715029, 0.691617, 0.994564, 0.0585718, 0.086087, 0.0210454, 0.696636, -0.717115, 0.939299, 1.158, 0.283251 )
 bone_name = "vine_left.L.004"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox4" index="0"]
+[node name="VineLL4" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox4" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox4/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox4/VineLL4" index="0"]
 transform = Transform( 1, 1.86265e-09, 9.77889e-08, 1.2666e-07, 8.9407e-08, -1, -1.59256e-07, 1, 8.9407e-08, 1.66893e-06, 0.0925688, 2.38419e-07 )
-shape = SubResource( 46 )
+shape = SubResource( 45 )
 
 [node name="LeftVineLeftHitbox5" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="31"]
 transform = Transform( 0.316153, 0.849042, 0.42329, 0.781533, -0.486019, 0.391141, 0.537822, 0.207155, -0.817211, 1.06796, 1.16854, 0.408601 )
 bone_name = "vine_left.L.005"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox5" index="0"]
+[node name="VineLL5" type="Area" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox5" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox5/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftVineLeftHitbox5/VineLL5" index="0"]
 transform = Transform( 1, -5.96046e-08, 7.45058e-08, 1.86265e-07, 1.49012e-07, -1, -1.49012e-07, 1, 1.19209e-07, 1.19209e-06, 0.0921184, 5.96046e-07 )
-shape = SubResource( 47 )
+shape = SubResource( 46 )
 
 [node name="LeftLegHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="32"]
 transform = Transform( -0.999549, 0.0296359, 0.00541046, -0.0301168, -0.978589, -0.203607, -0.000739478, -0.203678, 0.979038, 0.0526964, 0.0190091, -2.83252e-07 )
 bone_name = "top_leg.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox" index="0"]
+[node name="LegL" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox/LegL" index="0"]
 transform = Transform( 1, -5.96046e-08, 7.55972e-08, 1.67347e-07, 1.49012e-07, -1, -1.50641e-07, 1, 1.19209e-07, 1.16229e-06, 0.273574, 7.15256e-07 )
-shape = SubResource( 48 )
+shape = SubResource( 47 )
 
 [node name="LeftLegHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="33"]
 transform = Transform( -0.976841, -0.21304, -0.020026, 0.204651, -0.957489, 0.203302, -0.0624859, 0.194495, 0.978911, 0.0693364, -0.530452, -0.114362 )
 bone_name = "mid_leg.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox2" index="0"]
+[node name="LegL2" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox2/LegL2" index="0"]
 transform = Transform( 1, -5.96046e-08, 1.01514e-07, 1.1269e-07, 7.45058e-08, -1, -1.30385e-07, 1, 4.47035e-08, 8.04663e-07, 0.526835, 7.15256e-07 )
-shape = SubResource( 49 )
+shape = SubResource( 48 )
 
 [node name="LeftLegHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="34"]
 transform = Transform( -0.913748, 0.221043, 0.340895, -0.270831, -0.956826, -0.105521, 0.302852, -0.188744, 0.934161, -0.151621, -1.52353, 0.0873616 )
 bone_name = "bot_leg.L"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox3" index="0"]
+[node name="LegL3" type="Area" parent="MarionetteModel/Skeleton/LeftLegHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/LeftLegHitbox3/LegL3" index="0"]
 transform = Transform( 1, 0, 7.45058e-09, 1.82539e-07, 1.19209e-07, -1, -2.08616e-07, 1, 7.45058e-08, 1.35601e-06, 0.521581, 5.88596e-07 )
-shape = SubResource( 50 )
+shape = SubResource( 49 )
 
 [node name="RightLegHitbox" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="35"]
 transform = Transform( -0.998308, -0.0548192, -0.0195315, 0.0510305, -0.985958, 0.159004, -0.0279738, 0.157738, 0.987085, -0.0526964, 0.0190091, -2.83252e-07 )
 bone_name = "top_leg.R"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox" index="0"]
+[node name="LegR" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox/LegR" index="0"]
 transform = Transform( 1, -5.96046e-08, 7.55972e-08, 1.67347e-07, 1.49012e-07, -1, -1.50641e-07, 1, 1.19209e-07, 1.16229e-06, 0.273574, 7.15256e-07 )
-shape = SubResource( 48 )
+shape = SubResource( 47 )
 
 [node name="RightLegHitbox2" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="36"]
 transform = Transform( -0.980854, 0.181621, 0.0703102, -0.190865, -0.968226, -0.161584, 0.0387288, -0.17191, 0.984351, -0.0835162, -0.535305, 0.0886811 )
 bone_name = "mid_leg.R"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox2" index="0"]
+[node name="LegR2" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox2" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox2/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox2/LegR2" index="0"]
 transform = Transform( 1, -5.96046e-08, 1.01514e-07, 1.1269e-07, 7.45058e-08, -1, -1.30385e-07, 1, 4.47035e-08, 8.04663e-07, 0.526835, 7.15256e-07 )
-shape = SubResource( 49 )
+shape = SubResource( 48 )
 
 [node name="RightLegHitbox3" type="BoneAttachment" parent="MarionetteModel/Skeleton" index="37"]
 transform = Transform( -0.969844, -0.242577, 0.02375, 0.243649, -0.962274, 0.121093, -0.00652053, 0.123228, 0.992357, 0.103503, -1.53231, -0.0883383 )
 bone_name = "bot_leg.R"
 
-[node name="Area" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox3" index="0"]
+[node name="LegR3" type="Area" parent="MarionetteModel/Skeleton/RightLegHitbox3" index="0"]
 transform = Transform( 1, 4.44089e-16, 0, -3.30872e-24, 1, 0, 0, 0, 1, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox3/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="MarionetteModel/Skeleton/RightLegHitbox3/LegR3" index="0"]
 transform = Transform( 1, 0, 7.45058e-09, 1.82539e-07, 1.19209e-07, -1, -2.08616e-07, 1, 7.45058e-08, 1.35601e-06, 0.521581, 5.88596e-07 )
-shape = SubResource( 50 )
+shape = SubResource( 49 )

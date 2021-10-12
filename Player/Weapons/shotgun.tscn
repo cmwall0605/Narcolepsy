@@ -44,62 +44,10 @@ size = Vector2( 0.01, 0.01 )
 
 [node name="Shotgun" instance=ExtResource( 1 )]
 script = ExtResource( 15 )
+ROTATION_DEGREE = 4
 
 [node name="ShotgunPoint" type="Spatial" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.040798, 0.679291 )
-
-[node name="PelletRayCast0" type="RayCast" parent="ShotgunPoint" index="0"]
-transform = Transform( 1, 8.73115e-11, 8.75389e-11, -1.16415e-10, 1, -2.32831e-10, -1.03682e-10, 6.98492e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast1" type="RayCast" parent="ShotgunPoint" index="1"]
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast2" type="RayCast" parent="ShotgunPoint" index="2"]
-transform = Transform( 1, 5.82077e-11, 1.69962e-11, -5.82077e-11, 1, -2.3283e-10, -1.69962e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast3" type="RayCast" parent="ShotgunPoint" index="3"]
-transform = Transform( 1, 8.73116e-11, 1.7394e-11, -8.73115e-11, 1, -4.6566e-10, -1.73941e-11, 4.65661e-10, 0.999999, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast4" type="RayCast" parent="ShotgunPoint" index="4"]
-transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast5" type="RayCast" parent="ShotgunPoint" index="5"]
-transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast6" type="RayCast" parent="ShotgunPoint" index="6"]
-transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast7" type="RayCast" parent="ShotgunPoint" index="7"]
-transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
-
-[node name="PelletRayCast8" type="RayCast" parent="ShotgunPoint" index="8"]
-transform = Transform( 1, 2.91038e-11, 1.65983e-11, -2.91038e-11, 1, -2.3283e-10, -1.65983e-11, 2.32831e-10, 1, 0, 0, 0 )
-cast_to = Vector3( 0, 60, 0 )
-collision_mask = 10
-collide_with_areas = true
 
 [node name="MuzzleFlash" type="Spatial" parent="." index="1"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.040576, 0.679483 )

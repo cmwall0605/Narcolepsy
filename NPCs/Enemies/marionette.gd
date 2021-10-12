@@ -59,6 +59,9 @@ var last_straight_line_check = false
 var has_hit_ground = false
 # State
 var current_state = State.IDLE
+# Misc regex
+var regexHitName
+var regexHead
 
 func _ready():
 	anim_fsm = anim_tree.get("parameters/monster_fsm/playback")
@@ -66,6 +69,10 @@ func _ready():
 	cam_target = get_tree().get_nodes_in_group("targets")[0]
 	nav = get_tree().get_nodes_in_group("navigation")[0]
 	head_movement_ik.start()
+	regexHitName = RegEx.new()
+	regexHitName.compile("(Vine)|(Face)")
+	regexHead = RegEx.new()
+	regexHead.compile("(Head)|(Face)")
 
 func _process(delta):
 	cam_transform = cam_target.global_transform
@@ -136,10 +143,12 @@ func handle_movement(delta):
 			anim_fsm.travel("idle_low")
 		move_and_slide(velocity * MOVEMENT_SPEED, Vector3.UP)
 
-func _bullet_hit(_damage, _dist):
+func _bullet_hit(_damage, _part, _pos):
 	is_shot = true
-	current_hp -= _damage
-	print(current_hp)
+	var particleType = regexHitName.search(_part)
+	var isHead = regexHead.search(_part)
+	current_hp -=  _damage * 2 if isHead else _damage
+	print("DMG: %s, HP: %s", (_damage * 2 if isHead else _damage), current_hp)
 
 func get_target_move_pos():
 	var actual_target = pm_target.global_transform.origin
