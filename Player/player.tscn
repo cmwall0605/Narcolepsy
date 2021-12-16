@@ -182,7 +182,7 @@ filter_enabled = true
 filters = [ "Playermodel/Skeleton:body", "Playermodel/Skeleton:foot.l", "Playermodel/Skeleton:foot.r", "Playermodel/Skeleton:lowerleg.l", "Playermodel/Skeleton:lowerleg.r", "Playermodel/Skeleton:uppperleg.l", "Playermodel/Skeleton:uppperleg.r" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=37]
-graph_offset = Vector2( -106, -262 )
+graph_offset = Vector2( -297.115, 15.7564 )
 nodes/current_weapon/node = SubResource( 2 )
 nodes/current_weapon/position = Vector2( 440, 80 )
 nodes/lb_aim_blendspace/node = SubResource( 7 )
@@ -195,12 +195,12 @@ nodes/lb_idle_scale/node = SubResource( 14 )
 nodes/lb_idle_scale/position = Vector2( 220, 260 )
 nodes/lb_transition/node = SubResource( 15 )
 nodes/lb_transition/position = Vector2( 400, 320 )
-nodes/output/position = Vector2( 1040, 280 )
+nodes/output/position = Vector2( 880, 120 )
 nodes/shotgun_tree/node = SubResource( 35 )
 nodes/shotgun_tree/position = Vector2( 240, 100 )
 nodes/upper_lower_blend/node = SubResource( 36 )
 nodes/upper_lower_blend/position = Vector2( 660, 120 )
-node_connections = [ "output", 0, "upper_lower_blend", "lb_aim_scale", 0, "lb_aim_blendspace", "current_weapon", 0, "shotgun_tree", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition", "lb_idle_scale", 0, "lb_idle_blendspace" ]
+node_connections = [ "output", 0, "upper_lower_blend", "current_weapon", 0, "shotgun_tree", "lb_aim_scale", 0, "lb_aim_blendspace", "lb_idle_scale", 0, "lb_idle_blendspace", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=38]
 
@@ -208,12 +208,12 @@ node_connections = [ "output", 0, "upper_lower_blend", "lb_aim_scale", 0, "lb_ai
 pause_mode = 1
 collision_mask = 12
 script = ExtResource( 3 )
-SPEED = 5.0
+SPEED = 3.0
 ROTATION_SPEED = 10.0
 CAMERA_ZOOM = 3.0
 CAMERA_ZOOM_RATE = 10.0
 
-[node name="CollisionShape" type="CollisionShape" parent="." index="0"]
+[node name="Hitbox" type="CollisionShape" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.876599, 0 )
 shape = SubResource( 1 )
 
@@ -234,9 +234,7 @@ spring_length = 4.0
 [node name="CameraOffset" type="Spatial" parent="CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ" index="0"]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
 
-[node name="Camera" type="ClippedCamera" parent="CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset" index="0" groups=[
-"targets",
-]]
+[node name="Camera" type="ClippedCamera" parent="CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset" index="0" groups=["targets"]]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -0.5 )
 fov = 50.0
 collision_mask = 6
@@ -276,6 +274,7 @@ transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -0.005516
 
 [node name="Skeleton" parent="Playermodel" index="0"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+bones/8/bound_children = [ NodePath("WeaponHolder") ]
 
 [node name="Hair Model" parent="Playermodel/Skeleton" index="0"]
 material/0 = ExtResource( 5 )
@@ -315,9 +314,7 @@ parameters/shotgun_tree/ub_transition/current = 0
 parameters/shotgun_tree/walk_sway_blend/blend_amount = 0
 parameters/upper_lower_blend/blend_amount = 0.0
 
-[node name="HeadTarget" type="Spatial" parent="." index="7" groups=[
-"targets",
-]]
+[node name="HeadTarget" type="Spatial" parent="." index="7" groups=["targets"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61622, 0 )
 
 [connection signal="anim_step_complete" from="Playermodel/Skeleton/WeaponHolder/Shotgun" to="." method="_anim_animation_step"]

@@ -47,7 +47,6 @@ stream = ExtResource( 5 )
 [node name="PS1-PostProcessing" parent="." instance=ExtResource( 7 )]
 pause_mode = 1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.87736, 0.973658, -3.92455 )
-visible = false
 
 [node name="PlayerSpawnLocation" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.33812, 0, 11.9975 )
@@ -55,17 +54,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.33812, 0, 11.9975 )
 [node name="MarionetteSpawnLocation" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.973, -0.206656, 2.89947 )
 
-[node name="plateau_large" parent="." groups=[
-"environment",
-] instance=ExtResource( 1 )]
+[node name="plateau_large" parent="." groups=["environment"] instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0906372, -19.8987, -0.104198 )
 
 [node name="plateau" parent="plateau_large" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.0582, 0 )
 
-[node name="Navigation" type="Navigation" parent="." groups=[
-"navigation",
-]]
+[node name="Navigation" type="Navigation" parent="." groups=["navigation"]]
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 3 )

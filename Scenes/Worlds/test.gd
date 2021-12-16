@@ -7,7 +7,7 @@ onready var marionette_spawn = $MarionetteSpawnLocation
 # Get items 
 onready var player_scene = preload("res://Player/player.tscn")
 onready var gui_scene = preload("res://Player/GUI/player_gui.tscn")
-onready var marionette_scene = preload("res://NPCs/Enemies/marionette.tscn")
+onready var marionette_scene = preload("res://NPCs/Enemies/marionette/marionette.tscn")
 var player
 var gui
 var marionette

@@ -31,6 +31,7 @@ onready var anim_timer = $ReloadTimer
 onready var shader_cache = $ShaderCache
 
 signal anim_step_complete
+signal gun_noise
 
 func _ready():
 	muzzle_flash.visible = false
@@ -68,6 +69,7 @@ func can_reload():
 func is_chambered():
 	return chambered
 
+# Shoot the shotgun
 func shoot_gun():
 	anim_timer.set_wait_time(SHOOT_TIME)
 	anim_timer.start()
@@ -78,13 +80,13 @@ func shoot_gun():
 		ray.force_raycast_update()
 		if ray.is_colliding():
 			var body = ray.get_collider()
-			print("Body: ",ray.get_collider().name)
-			print("Body Owner: ", body.owner.name)
 			if body.owner.is_in_group("enemy_collision"):
 				var distance = ray.global_transform.origin.distance_to(ray.get_collision_point())
-				body.owner._bullet_hit(calc_dmg(distance), ray.get_collider().name, null)
+				if body.owner.has_method("_bullet_hit"):
+					body.owner._bullet_hit(calc_dmg(distance), ray.get_collider().name, null)
 	muzzle_flash.get_node("AnimationPlayer").play("Fire")
 	shotgun_anim_player.play("Shoot")
+	emit_signal("gun_noise")
 	if(current_mag_count > 0):
 		current_mag_count = current_mag_count - 1
 	else:

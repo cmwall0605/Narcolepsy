@@ -1,35 +1,34 @@
 extends KinematicBody
+###############
 ## CONSTANTS ##
+###############
 # Movement
-export var SPEED : float  = 350
+export var SPEED : float  = 5
 var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 export var MAX_TERMINAL_VELOCITY : float = 980
 export var ROTATION_SPEED : float = 25
-
 # Walk animation
 export var WALK_PROGRESSION_RATE : float = 0.1
 export var AIM_PROGRESSION_RATE : float = 0.1
-
 # Camera
 export var CAMERA_FOV : float = 50.0
 export var CAMERA_ARM_Z_BASE_LENGTH : float = 4
 export var CAMERA_ZOOM : float = 1
 export var CAMERA_ZOOM_RATE : float = 0.1
-
 # Mouse Input
 export(float, 0.1, 1) var MOUSE_SENSITIVITY : float = 0.3
 export(float, -90, 0) var MIN_PITCH : float = -60
 export(float, 0, 90) var MAX_PITCH : float = 60
-
 # Finite State Machine Points
 enum State {IDLE, SPRINT, RELOAD_START, RELOAD_MID, RELOAD_END, AIM, USE, SHOOT, DEAD}
 enum AnimationState {IDLE, AIM, RELOAD}
 enum ReloadAnimationState {START, MID, END_E, END_F}
-
 # Game Stats
-export var HP : int = 100
 
+
+###########
 ## NODES ##
+###########
 # Camera
 onready var cam_rot_h = $CamRotationH
 onready var cam_rot_v = $CamRotationH/CamRotationV
@@ -46,13 +45,17 @@ onready var player_anim_tree = $AnimationTree
 onready var audio_manager = $AudioManager
 onready var slow_footstep_audio = $AudioManager/SlowFootStepAudio
 onready var med_footstep_audio = $AudioManager/MedFootStepAudio
-var current_gun : Spatial = null
+# Items
+var current_item : Spatial = null
 
+
+###############
 ## VARIABLES ##
+###############
 # Movement
 var movement_velocity : Vector3 = Vector3.ZERO
 var snap_vector : Vector3 = Vector3.ZERO
-var current_speed
+var current_speed = SPEED
 # Animation
 var current_weapon_blend_tree
 var reload_anim_fsm
@@ -63,46 +66,58 @@ var current_state = State.IDLE
 var aim_mode = false
 # Reload animation
 var anim_step_complete = false
-# Ammo (0 = shotgun)
-var ammo_dict = {"12g": 15}
 
+# Function ran at the first frame of the player's creation. Meant to set up
+# variables that only exist after creation.
 func _ready():
-	current_speed = SPEED
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	camera.fov = CAMERA_FOV
 	set_equipment($Playermodel/Skeleton/WeaponHolder/Shotgun)
-	
+	PlayerInfo.inventory.append(current_item)
+
+# Ran at every frame; Sets the state, zoom, animation, and audio.
 func _process(delta):
 	handle_state()
 	handle_zoom(delta)
 	handle_anim()
 	handle_audio()
 
+# Ran at every physics frame. Since it is meant to handle physics based things,
+# it only handles the movement of the palyer
 func _physics_process(delta):
 	handle_movement(delta)
 
+# Ran when an input is given by the player.
 func _input(event):
+	# Ran when the mouse is moved.
 	if event is InputEventMouseMotion:
 
+		# Handle vertical and horizontal rotation of the camera
 		cam_rot_v.rotation_degrees.x -= event.relative.y * MOUSE_SENSITIVITY
 		cam_rot_v.rotation_degrees.x = clamp(cam_rot_v.rotation_degrees.x, MIN_PITCH, MAX_PITCH)
+		cam_rot_h.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
+
+		# Handle playermodel movement
 		if aim_mode:
 			player_model.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
-		cam_rot_h.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
 		ik_spine_target.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
 		ik_spine_target.rotation_degrees.x += event.relative.y * MOUSE_SENSITIVITY
 		ik_spine_target.rotation_degrees.x = clamp(ik_spine_target.rotation_degrees.x, MIN_PITCH, MAX_PITCH)
 
+# Sets the equipment of the player
 func set_equipment(item : Spatial):
-	current_gun = item
-	current_weapon_blend_tree = "%s_tree" % current_gun.get_name()
+	current_item = item
+	current_weapon_blend_tree = "%s_tree" % current_item.get_name()
 	reload_anim_fsm = player_anim_tree.get("parameters/%s/reload_fsm/playback" % current_weapon_blend_tree)
 
 func handle_state():
 	# State Check
+	#ANY -> DEAD
+	if current_state != State.DEAD && PlayerInfo.current_hp <= 0:
+		handle_death()
+		current_state = State.DEAD
 	match current_state:
 		State.IDLE:
-			# IDLE -> DEAD (TODO)
 			# IDLE -> SPRINT (TODO)
 			# IDLE -> AIM
 			if Input.is_action_pressed("aim_gun"):
@@ -114,15 +129,12 @@ func handle_state():
 				aim_mode = true
 				ik_spine.start()
 			# IDLE -> RELOAD_START
-			elif Input.is_action_just_pressed("reload") && current_gun.can_reload() && ammo_dict[current_gun.get_ammo_type()] != 0:
+			elif Input.is_action_just_pressed("reload") && current_item.can_reload() && PlayerInfo.ammo_dict[current_item.get_ammo_type()] != 0:
 				current_state = State.RELOAD_START
 				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.RELOAD)
 				reload_anim_fsm.travel("start")
-				current_gun.reload_gun_start()
+				current_item.reload_gun_start()
 			# IDLE -> USE (TODO)
-			# IDLE -> IDLE
-			else:
-				current_state = State.IDLE
 
 		State.SPRINT: #TODO
 			# SPRINT -> IDLE (TODO)
@@ -137,49 +149,41 @@ func handle_state():
 				anim_step_complete = false
 				current_state = State.RELOAD_MID
 				reload_anim_fsm.travel("mid")
-				ammo_dict[current_gun.get_ammo_type()] -= current_gun.reload_gun_mid(ammo_dict[current_gun.get_ammo_type()])
+				PlayerInfo.ammo_dict[current_item.get_ammo_type()] -= current_item.reload_gun_mid(PlayerInfo.ammo_dict[current_item.get_ammo_type()])
 
 		State.RELOAD_MID:
 			# Check if the current animation is done
 			if !anim_step_complete:
 				current_state = State.RELOAD_MID
 			# RELOAD_MID -> RELOAD_END
-			elif !current_gun.can_reload() || ammo_dict[current_gun.get_ammo_type()] == 0:
+			elif !current_item.can_reload() || PlayerInfo.ammo_dict[current_item.get_ammo_type()] == 0:
 				anim_step_complete = false
 				current_state = State.RELOAD_END
-				if current_gun.is_chambered():
+				if current_item.is_chambered():
 					reload_anim_fsm.travel("end_f")
 				else:
 					reload_anim_fsm.travel("end_e")
-				current_gun.reload_gun_end()
+				current_item.reload_gun_end()
 			# RELOAD_MID -> RELOAD_MID
 			else:
 				anim_step_complete = false
 				current_state = State.RELOAD_MID
-				ammo_dict[current_gun.get_ammo_type()] -= current_gun.reload_gun_mid(ammo_dict[current_gun.get_ammo_type()])
+				PlayerInfo.ammo_dict[current_item.get_ammo_type()] -= current_item.reload_gun_mid(PlayerInfo.ammo_dict[current_item.get_ammo_type()])
 
 		State.RELOAD_END:
-			# Check if the current animation is done
-			if !anim_step_complete:
-				current_state = State.RELOAD_END
 			# RELOAD_END -> IDLE
-			else:
+			if anim_step_complete:
 				anim_step_complete = false
 				current_state = State.IDLE
 				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.IDLE)
 
 		State.AIM:
-			
-			# AIM -> DEAD (TODO)
 			# AIM -> SHOOT
-			if Input.is_action_just_pressed("shoot_gun") && current_gun.can_shoot():
+			if Input.is_action_just_pressed("shoot_gun") && current_item.can_shoot():
 				current_state = State.SHOOT
 				handle_shooting()
-			# AIM -> AIM
-			elif Input.is_action_pressed("aim_gun"):
-				current_state = State.AIM
 			# AIM -> IDLE
-			else:
+			elif !Input.is_action_pressed("aim_gun"):
 				current_state = State.IDLE
 				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.IDLE)
 				player_anim_tree.set("parameters/lb_transition/current", AnimationState.IDLE)
@@ -188,41 +192,40 @@ func handle_state():
 				ik_spine.stop()
 
 		State.USE: #TODO
-			# USE -> DEAD (TODO)
+			# USE -> IDLE
 			pass
 
 		State.SHOOT:
-			# SHOOT -> DEAD (TODO)
-			# Check if animation is complete
-			if !anim_step_complete:
-				current_state = State.SHOOT
-			# SHOOT -> SHOOT
-			else:
+			# SHOOT -> AIM
+			if anim_step_complete:
 				anim_step_complete = false
 				current_state = State.AIM
-			pass
 
-		State.DEAD: #TODO
-			# DEAD -> IDLE (TODO)
-			# DEAD -> DEAD (TODO)
-			pass
+func handle_death():
+	aim_mode = false
+	ik_spine.stop()
 
+# Handle zoom (aim) of the player
 func handle_zoom(delta):
 	camera_arm_z.spring_length += -CAMERA_ZOOM_RATE * delta if aim_mode else CAMERA_ZOOM_RATE * delta
 	camera_arm_z.spring_length = clamp(camera_arm_z.spring_length, CAMERA_ARM_Z_BASE_LENGTH - CAMERA_ZOOM, CAMERA_ARM_Z_BASE_LENGTH)
 
+# Handle the shooting coming from the player
 func handle_shooting():
-	current_gun.shoot_gun()
+	current_item.shoot_gun()
 	# Shoot animation handler
 	player_anim_tree.set("parameters/%s/shoot/active" % current_weapon_blend_tree, true)
 
+# Handle the movement of the player
 func handle_movement(delta):
+	if current_state == State.DEAD:
+		return
 	var input_vector = get_input_vector()
 	var gravity_vel = apply_gravity()
 	apply_movement(input_vector, delta)
 	movement_velocity = move_and_slide(movement_velocity + gravity_vel, Vector3.UP)
 
-
+# Get the movement input from the player
 func get_input_vector():
 	# Input vector obtained from keyboard movement
 	var input_vector = Vector3(
@@ -242,6 +245,7 @@ func get_input_vector():
 	# Normalize the input vector so that vector length is always 1
 	return input_vector.normalized()
 
+# Apply movement to the player
 func apply_movement(input_vector, delta):
 	# Rotate input vector globally for movement
 	var global_rot_input_vector = input_vector.rotated(Vector3.UP, cam_rot_h.global_transform.basis.get_euler().y)
@@ -251,6 +255,7 @@ func apply_movement(input_vector, delta):
 	movement_velocity.x = global_rot_input_vector.x * current_speed
 	movement_velocity.z = global_rot_input_vector.z * current_speed
 
+# Apply gravity to the player
 func apply_gravity():
 	var g_vel = Vector3()
 	if is_on_floor():
@@ -259,13 +264,15 @@ func apply_gravity():
 		g_vel.y = -GRAVITY
 	return g_vel
 
+# Handle the animation of the player
 func handle_anim():
 	# Walk animation handler
 	player_anim_tree.set("parameters/lb_idle_blendspace/blend_position", walk_anim_vector)
 	player_anim_tree.set("parameters/lb_aim_blendspace/blend_position", walk_anim_vector)
 	player_anim_tree.set("parameters/upper_lower_blend/blend_amount", walk_progression)
 	player_anim_tree.set("parameters/%s/walk_sway_blend/blend_amount" % current_weapon_blend_tree, walk_progression)
-
+	
+# Handle the audio coming from the player
 func handle_audio():
 	# Footsteps
 	if walk_progression > 0.5 && is_on_floor():
@@ -278,6 +285,10 @@ func handle_audio():
 		return
 	slow_footstep_audio.stop()
 	med_footstep_audio.stop()
-	
+
 func _anim_animation_step():
 	anim_step_complete = true
+
+func _take_damage(_damage, _type):
+	print("Player Hit!")
+	PlayerInfo.current_hp -= _damage
