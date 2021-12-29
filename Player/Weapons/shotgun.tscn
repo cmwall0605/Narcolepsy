@@ -40,7 +40,6 @@ tracks/1/keys = {
 
 [sub_resource type="QuadMesh" id=2]
 material = ExtResource( 3 )
-size = Vector2( 0.01, 0.01 )
 
 [node name="Shotgun" instance=ExtResource( 1 )]
 script = ExtResource( 15 )

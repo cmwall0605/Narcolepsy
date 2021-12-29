@@ -208,13 +208,14 @@ radius = 0.0372996
 height = 0.991369
 
 [sub_resource type="BoxShape" id=52]
-extents = Vector3( 1.39557, 0.111917, 1.75889 )
+extents = Vector3( 1.28733, 0.111917, 1.72904 )
 
 [node name="Marionette" groups=["enemy_collision"] instance=ExtResource( 5 )]
 collision_layer = 4
 collision_mask = 8
 script = ExtResource( 4 )
-MOVEMENT_SPEED = 7.5
+ROTATION_SPPED = 400.0
+BASE_DMG = 25
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0 )
@@ -232,6 +233,41 @@ script = ExtResource( 3 )
 
 [node name="Skeleton" parent="MarionetteModel" index="0"]
 transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 10, 0 )
+bones/0/bound_children = [ NodePath("BodyHitbox") ]
+bones/1/bound_children = [ NodePath("NeckHitbox") ]
+bones/2/bound_children = [ NodePath("HeadHitbox") ]
+bones/3/bound_children = [ NodePath("LeftLegHitbox") ]
+bones/4/bound_children = [ NodePath("LeftLegHitbox2") ]
+bones/5/bound_children = [ NodePath("LeftLegHitbox3") ]
+bones/6/bound_children = [ NodePath("LeftShoulderHitbox") ]
+bones/7/bound_children = [ NodePath("LeftUpperArmHitbox") ]
+bones/8/bound_children = [ NodePath("LeftLowerArmHitbox") ]
+bones/9/bound_children = [ NodePath("LeftVineRightHitbox") ]
+bones/10/bound_children = [ NodePath("LeftVineRightHitbox2") ]
+bones/11/bound_children = [ NodePath("LeftVineRightHitbox3") ]
+bones/12/bound_children = [ NodePath("LeftVineLeftHitbox") ]
+bones/13/bound_children = [ NodePath("LeftVineLeftHitbox2") ]
+bones/14/bound_children = [ NodePath("LeftVineLeftHitbox3") ]
+bones/15/bound_children = [ NodePath("LeftVineLeftHitbox4") ]
+bones/16/bound_children = [ NodePath("LeftVineLeftHitbox5") ]
+bones/17/bound_children = [ NodePath("LeftVineMidHitbox") ]
+bones/18/bound_children = [ NodePath("LeftVineMidHitbox2") ]
+bones/19/bound_children = [ NodePath("LeftVineMidHitbox3") ]
+bones/20/bound_children = [ NodePath("RightLegHitbox") ]
+bones/21/bound_children = [ NodePath("RightLegHitbox2") ]
+bones/22/bound_children = [ NodePath("RightLegHitbox3") ]
+bones/23/bound_children = [ NodePath("ShoulderRightHitbox") ]
+bones/24/bound_children = [ NodePath("VineTopHitbox") ]
+bones/25/bound_children = [ NodePath("RightVineTopHitbox") ]
+bones/26/bound_children = [ NodePath("RightVineTopHitbox2") ]
+bones/27/bound_children = [ NodePath("RightVineTopHitbox3") ]
+bones/28/bound_children = [ NodePath("RightVineTopHitbox4") ]
+bones/29/bound_children = [ NodePath("RightVineHitbox") ]
+bones/30/bound_children = [ NodePath("RightVineHitbox2") ]
+bones/31/bound_children = [ NodePath("RightVineHitbox3") ]
+bones/32/bound_children = [ NodePath("RightVineHitbox4") ]
+bones/33/bound_children = [ NodePath("RightVineHitbox5") ]
+bones/34/bound_children = [ NodePath("RightVineHitbox6") ]
 
 [node name="Model" parent="MarionetteModel/Skeleton" index="0"]
 material/0 = ExtResource( 2 )

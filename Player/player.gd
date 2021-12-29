@@ -20,10 +20,11 @@ export(float, 0.1, 1) var MOUSE_SENSITIVITY : float = 0.3
 export(float, -90, 0) var MIN_PITCH : float = -60
 export(float, 0, 90) var MAX_PITCH : float = 60
 # Finite State Machine Points
-enum State {IDLE, SPRINT, RELOAD_START, RELOAD_MID, RELOAD_END, AIM, USE, SHOOT, DEAD}
+enum State {IDLE, SPRINT, RELOAD_START, RELOAD_MID, RELOAD_END, AIM, SHOOT, DEAD}
 enum AnimationState {IDLE, AIM, RELOAD}
 enum ReloadAnimationState {START, MID, END_E, END_F}
-# Game Stats
+# Use
+export var USE_TIME = 0.1
 
 
 ###########
@@ -47,7 +48,8 @@ onready var slow_footstep_audio = $AudioManager/SlowFootStepAudio
 onready var med_footstep_audio = $AudioManager/MedFootStepAudio
 # Items
 var current_item : Spatial = null
-
+# Use
+onready var use_raycast = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCast
 
 ###############
 ## VARIABLES ##
@@ -66,11 +68,14 @@ var current_state = State.IDLE
 var aim_mode = false
 # Reload animation
 var anim_step_complete = false
+# Use
+var highlighted_object : StaticBody = null
 
 # Function ran at the first frame of the player's creation. Meant to set up
 # variables that only exist after creation.
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	update_highlight()
 	camera.fov = CAMERA_FOV
 	set_equipment($Playermodel/Skeleton/WeaponHolder/Shotgun)
 	PlayerInfo.inventory.append(current_item)
@@ -81,6 +86,21 @@ func _process(delta):
 	handle_zoom(delta)
 	handle_anim()
 	handle_audio()
+
+func update_highlight():
+	while true:
+		yield(get_tree().create_timer(USE_TIME), "timeout")
+		yield(get_tree(),"physics_frame")
+		if current_state == State.IDLE:
+			use_raycast.force_raycast_update()
+			var collision = use_raycast.get_collider()
+			if collision != highlighted_object and (collision == null or collision.is_in_group("object")):
+				if collision != null and collision.has_method("_highlight"):
+					collision._highlight(true)
+				if highlighted_object != null and highlighted_object.has_method("_highlight"):
+					highlighted_object._highlight(false)
+				highlighted_object = collision
+
 
 # Ran at every physics frame. Since it is meant to handle physics based things,
 # it only handles the movement of the palyer
@@ -103,6 +123,15 @@ func _input(event):
 		ik_spine_target.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
 		ik_spine_target.rotation_degrees.x += event.relative.y * MOUSE_SENSITIVITY
 		ik_spine_target.rotation_degrees.x = clamp(ik_spine_target.rotation_degrees.x, MIN_PITCH, MAX_PITCH)
+	if event.is_action_pressed("use"):
+		handle_use()
+
+func handle_use():
+	if current_state != State.IDLE || highlighted_object == null:
+		return
+	if highlighted_object.has_method("_use"):
+		highlighted_object._use()
+	
 
 # Sets the equipment of the player
 func set_equipment(item : Spatial):
@@ -134,7 +163,6 @@ func handle_state():
 				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.RELOAD)
 				reload_anim_fsm.travel("start")
 				current_item.reload_gun_start()
-			# IDLE -> USE (TODO)
 
 		State.SPRINT: #TODO
 			# SPRINT -> IDLE (TODO)
@@ -190,10 +218,6 @@ func handle_state():
 				current_speed = SPEED
 				aim_mode = false
 				ik_spine.stop()
-
-		State.USE: #TODO
-			# USE -> IDLE
-			pass
 
 		State.SHOOT:
 			# SHOOT -> AIM

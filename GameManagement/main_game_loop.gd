@@ -3,12 +3,14 @@ extends Node
 var players : Array
 var actors : Array
 
-func instantiate_player(player : Spatial, spawn_location : Vector3):
+func instantiate_player(player : Spatial, parent : Spatial, spawn_location : Vector3):
 	players.append(player)
+	parent.add_child(player)
 	player.global_transform.origin = spawn_location
 	return player
 
-func instantiate_actor(actor : Spatial, spawn_location : Vector3):
+func instantiate_actor(actor : Spatial, parent : Spatial, spawn_location : Vector3):
 	actors.append(actor)
+	parent.add_child(actor)
 	actor.global_transform.origin = spawn_location
 	return actor

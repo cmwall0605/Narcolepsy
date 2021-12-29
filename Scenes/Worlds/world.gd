@@ -15,7 +15,7 @@ onready var marionette_scene = preload("res://NPCs/Enemies/marionette/marionette
 func _ready():
 	# Instanstiate the player into the scene
 	MainGameLoop.players = Array()
-	add_child(MainGameLoop.instantiate_player(player_scene.instance(), player_spawn.global_transform.origin))
+	MainGameLoop.instantiate_player(player_scene.instance(), self, player_spawn.global_transform.origin)
 
 
 
@@ -24,7 +24,7 @@ func _ready():
 
 	# Instantiate the marionette into the scene
 	MainGameLoop.actors = Array()
-	add_child(MainGameLoop.instantiate_actor(marionette_scene.instance(), marionette_spawn.global_transform.origin))
+	MainGameLoop.instantiate_actor(marionette_scene.instance(), self, marionette_spawn.global_transform.origin)
 
 	# Play Ambience
 	ambience_audio.play()
