@@ -9,8 +9,8 @@
 margin_top = 141.0
 margin_right = 412.0
 margin_bottom = 171.0
-custom_styles/focus = SubResource( 1 )
 custom_fonts/font = ExtResource( 1 )
+custom_styles/focus = SubResource( 1 )
 text = "Label"
 flat = true
 expand_icon = true
@@ -22,8 +22,8 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Label"
 align = 1
 valign = 1

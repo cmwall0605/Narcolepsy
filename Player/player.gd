@@ -1,4 +1,5 @@
 extends KinematicBody
+
 ###############
 ## CONSTANTS ##
 ###############
@@ -7,6 +8,7 @@ export var SPEED : float  = 5
 var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 export var MAX_TERMINAL_VELOCITY : float = 980
 export var ROTATION_SPEED : float = 25
+export var AIM_SPEED_REDUCTION : float = 0.3
 # Walk animation
 export var WALK_PROGRESSION_RATE : float = 0.1
 export var AIM_PROGRESSION_RATE : float = 0.1
@@ -47,9 +49,10 @@ onready var audio_manager = $AudioManager
 onready var slow_footstep_audio = $AudioManager/SlowFootStepAudio
 onready var med_footstep_audio = $AudioManager/MedFootStepAudio
 # Items
-var current_item : Spatial = null
+var current_item
 # Use
 onready var use_raycast = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCast
+onready var use_crosshair = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCrosshair
 
 ###############
 ## VARIABLES ##
@@ -76,9 +79,12 @@ var highlighted_object : StaticBody = null
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	update_highlight()
+	use_crosshair.visible = false
 	camera.fov = CAMERA_FOV
 	set_equipment($Playermodel/Skeleton/WeaponHolder/Shotgun)
-	PlayerInfo.inventory.append(current_item)
+	if(MainGameLoop.is_new):
+		
+		PlayerInfo.add_weapon(current_item)
 
 # Ran at every frame; Sets the state, zoom, animation, and audio.
 func _process(delta):
@@ -100,6 +106,7 @@ func update_highlight():
 				if highlighted_object != null and highlighted_object.has_method("_highlight"):
 					highlighted_object._highlight(false)
 				highlighted_object = collision
+		use_crosshair.visible = highlighted_object != null and current_state == State.IDLE
 
 
 # Ran at every physics frame. Since it is meant to handle physics based things,
@@ -150,50 +157,26 @@ func handle_state():
 			# IDLE -> SPRINT (TODO)
 			# IDLE -> AIM
 			if Input.is_action_pressed("aim_gun"):
-				current_state = State.AIM
-				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.AIM)
-				player_anim_tree.set("parameters/lb_transition/current", AnimationState.AIM)
-				player_model.look_at(front.global_transform.origin, Vector3.UP)
-				current_speed = SPEED/3
-				aim_mode = true
-				ik_spine.start()
+				handle_aim()
 			# IDLE -> RELOAD_START
 			elif Input.is_action_just_pressed("reload") && current_item.can_reload() && PlayerInfo.ammo_dict[current_item.get_ammo_type()] != 0:
-				current_state = State.RELOAD_START
-				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.RELOAD)
-				reload_anim_fsm.travel("start")
-				current_item.reload_gun_start()
+				handle_reload()
 
 		State.SPRINT: #TODO
 			# SPRINT -> IDLE (TODO)
 			pass
 
 		State.RELOAD_START: 
-			# Check if the current animation is done
-			if !anim_step_complete:
-				current_state = State.RELOAD_START
 			# RELOAD_START -> RELOAD_MID
-			else:
-				anim_step_complete = false
-				current_state = State.RELOAD_MID
-				reload_anim_fsm.travel("mid")
-				PlayerInfo.ammo_dict[current_item.get_ammo_type()] -= current_item.reload_gun_mid(PlayerInfo.ammo_dict[current_item.get_ammo_type()])
+			if anim_step_complete:
+				handle_reload()
 
 		State.RELOAD_MID:
-			# Check if the current animation is done
-			if !anim_step_complete:
-				current_state = State.RELOAD_MID
 			# RELOAD_MID -> RELOAD_END
-			elif !current_item.can_reload() || PlayerInfo.ammo_dict[current_item.get_ammo_type()] == 0:
-				anim_step_complete = false
-				current_state = State.RELOAD_END
-				if current_item.is_chambered():
-					reload_anim_fsm.travel("end_f")
-				else:
-					reload_anim_fsm.travel("end_e")
-				current_item.reload_gun_end()
+			if anim_step_complete and (!current_item.can_reload() or PlayerInfo.ammo_dict[current_item.get_ammo_type()] == 0):
+				handle_reload()
 			# RELOAD_MID -> RELOAD_MID
-			else:
+			elif anim_step_complete:
 				anim_step_complete = false
 				current_state = State.RELOAD_MID
 				PlayerInfo.ammo_dict[current_item.get_ammo_type()] -= current_item.reload_gun_mid(PlayerInfo.ammo_dict[current_item.get_ammo_type()])
@@ -208,22 +191,58 @@ func handle_state():
 		State.AIM:
 			# AIM -> SHOOT
 			if Input.is_action_just_pressed("shoot_gun") && current_item.can_shoot():
-				current_state = State.SHOOT
 				handle_shooting()
 			# AIM -> IDLE
 			elif !Input.is_action_pressed("aim_gun"):
-				current_state = State.IDLE
-				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.IDLE)
-				player_anim_tree.set("parameters/lb_transition/current", AnimationState.IDLE)
-				current_speed = SPEED
-				aim_mode = false
-				ik_spine.stop()
+				handle_aim()
 
 		State.SHOOT:
 			# SHOOT -> AIM
-			if anim_step_complete:
+			handle_shooting()
+
+
+func handle_reload():
+		match current_state:
+			State.IDLE:
+				current_state = State.RELOAD_START
+				player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.RELOAD)
+				reload_anim_fsm.travel("start")
+				current_item.reload_gun_start()
+			State.RELOAD_START:
+				# Check if the current animation is done
+				current_state = State.RELOAD_MID
 				anim_step_complete = false
-				current_state = State.AIM
+				reload_anim_fsm.travel("mid")
+				PlayerInfo.ammo_dict[current_item.get_ammo_type()] -= current_item.reload_gun_mid(PlayerInfo.ammo_dict[current_item.get_ammo_type()])
+			State.RELOAD_MID:
+				current_state = State.RELOAD_END
+				anim_step_complete = false
+				if current_item.is_chambered():
+					reload_anim_fsm.travel("end_f")
+				else:
+					reload_anim_fsm.travel("end_e")
+				current_item.reload_gun_end()
+
+func handle_aim():
+	if(current_state == State.IDLE):
+		current_state = State.AIM
+		player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.AIM)
+		player_anim_tree.set("parameters/lb_transition/current", AnimationState.AIM)
+		player_model.look_at(front.global_transform.origin, Vector3.UP)
+		current_speed = SPEED * AIM_SPEED_REDUCTION
+		aim_mode = true
+		if current_item.has_method("set_crosshair"):
+			current_item.set_crosshair(true)
+		ik_spine.start()
+	else:
+		current_state = State.IDLE
+		player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.IDLE)
+		player_anim_tree.set("parameters/lb_transition/current", AnimationState.IDLE)
+		current_speed = SPEED
+		if current_item.has_method("set_crosshair"):
+			current_item.set_crosshair(false)
+		aim_mode = false
+		ik_spine.stop()
 
 func handle_death():
 	aim_mode = false
@@ -236,9 +255,16 @@ func handle_zoom(delta):
 
 # Handle the shooting coming from the player
 func handle_shooting():
-	current_item.shoot_gun()
-	# Shoot animation handler
-	player_anim_tree.set("parameters/%s/shoot/active" % current_weapon_blend_tree, true)
+	if(current_state == State.AIM):
+		current_state = State.SHOOT
+		current_item.shoot_gun()
+		# Shoot animation handler
+		player_anim_tree.set("parameters/%s/shoot/active" % current_weapon_blend_tree, true)
+	else:
+		if anim_step_complete:
+			anim_step_complete = false
+			current_state = State.AIM
+
 
 # Handle the movement of the player
 func handle_movement(delta):

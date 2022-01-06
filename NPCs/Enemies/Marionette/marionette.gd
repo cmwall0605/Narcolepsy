@@ -6,7 +6,6 @@ export var HEAD_SPEED = 100.0
 export var VIS_ARC = 100.0
 export var DECT_RADIUS = 13
 export var CHASE_RADIUS = 15
-
 # Movement
 var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 export var MAX_TERMINAL_VELOCITY : float = 980
@@ -14,18 +13,15 @@ export var ROTATION_SPPED = 200.0
 export var CHAR_RADIUS = 0.82
 export var CHAR_HEIGHT = 0.82
 export var MIN_DIST_TO_CHECK_LOS = 100.0
-
 # Stats
 export var MAX_HP : int = 225
 export var BASE_DMG : int = 50
 export var MOVEMENT_SPEED : float = 10
-
 # Attack variables
 export var ATTACK_DISTANCE = 2.5
 export var ATTACK_COOLDOWN = 0.5
 export var ATTACK_HIT_TIME = 0.5
 var is_attacking : bool = false
-
 # FSM Points
 enum State {IDLE, TRANSFORM, CHASE, SEARCH, RETURN, DEAD, ATTACK}
 
@@ -71,7 +67,6 @@ var last_straight_line_check = false
 var has_hit_ground = false
 # State
 var current_state = State.IDLE
-
 # Misc regex
 var regexHitName
 var regexHead
@@ -137,7 +132,7 @@ func handle_state():
 				anim_fsm.travel("idle_low")
 				head_movement_ik.stop()
 				current_state = State.TRANSFORM
-
+				
 		State.TRANSFORM:
 				#TRANSFORM -> CHASE
 				if(anim_fsm.get_current_node() == "idle_low"):

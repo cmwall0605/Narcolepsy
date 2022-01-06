@@ -4,7 +4,8 @@
 
 [node name="ExitButton" instance=ExtResource( 1 )]
 text = "Exit"
-scene_to_load = "Exit"
+function = "exit"
+scene_to_load = "none"
 
 [node name="Label" parent="." index="0"]
 text = "Exit"

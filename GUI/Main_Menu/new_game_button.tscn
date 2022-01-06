@@ -4,6 +4,7 @@
 
 [node name="NewGameButton" instance=ExtResource( 1 )]
 text = "New Game"
+function = "new"
 scene_to_load = "res://Scenes/Worlds/world.tscn"
 
 [node name="Label" parent="." index="0"]

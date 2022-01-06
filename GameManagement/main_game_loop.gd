@@ -2,6 +2,7 @@ extends Node
 
 var players : Array
 var actors : Array
+var is_new : bool = true
 
 func instantiate_player(player : Spatial, parent : Spatial, spawn_location : Vector3):
 	players.append(player)

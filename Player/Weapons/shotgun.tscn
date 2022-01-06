@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Meshes/Shotgun.glb" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Materials/shotgun.tres" type="Material" id=2]
@@ -7,6 +7,10 @@
 [ext_resource path="res://Assets/Audio/Shotgun/shotgun_fire.wav" type="AudioStream" id=12]
 [ext_resource path="res://Player/Weapons/shotgun.gd" type="Script" id=15]
 [ext_resource path="res://Assets/Meshes/shotgun_muzzle_flash.obj" type="ArrayMesh" id=16]
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.03
+height = 0.06
 
 [sub_resource type="Animation" id=1]
 length = 1.25
@@ -47,6 +51,15 @@ ROTATION_DEGREE = 4
 
 [node name="ShotgunPoint" type="Spatial" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.040798, 0.679291 )
+
+[node name="Crosshair" type="SpringArm" parent="ShotgunPoint" index="0"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -7.45058e-09 )
+collision_mask = 30
+spring_length = 5.0
+
+[node name="MeshInstance" type="MeshInstance" parent="ShotgunPoint/Crosshair" index="0"]
+mesh = SubResource( 3 )
+material/0 = null
 
 [node name="MuzzleFlash" type="Spatial" parent="." index="1"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.040576, 0.679483 )

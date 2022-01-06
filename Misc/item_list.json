@@ -1,0 +1,7 @@
+[
+  {
+    "item_name": "shotgun",
+    "item_desc": "A rusty pump action shotgun from a bygone era",
+    "spatial_location": "res://Player/Weapons/shotgun.tscn"
+  }
+]

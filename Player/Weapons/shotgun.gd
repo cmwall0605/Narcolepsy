@@ -29,12 +29,14 @@ onready var shotgun_dry_fire_audio = $AudioManager/ShotgunDryFire
 onready var muzzle_flash = $MuzzleFlash
 onready var anim_timer = $ReloadTimer
 onready var shader_cache = $ShaderCache
+onready var crosshair = $ShotgunPoint/Crosshair
 
 signal anim_step_complete
 signal gun_noise
 
 func _ready():
 	muzzle_flash.visible = false
+	crosshair.visible = false
 	current_mag_count = MAGAZINE
 	for i in range (0, PELLET_COUNT):
 		var ray = pellet_scene.instance()
@@ -43,6 +45,10 @@ func _ready():
 
 func _process(delta):
 	manage_shader_cache()
+
+func set_crosshair(val):
+	crosshair.visible = val
+
 
 func manage_shader_cache():
 	if countdown > 0:

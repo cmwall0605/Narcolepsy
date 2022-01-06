@@ -4,6 +4,8 @@
 
 [node name="OptionsButton" instance=ExtResource( 1 )]
 text = "Options"
+function = "options"
+scene_to_load = "none"
 
 [node name="Label" parent="." index="0"]
 text = "Options"

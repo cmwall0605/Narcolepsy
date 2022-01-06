@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Assets/Audio/Footsteps/Grass/med_grass_walk.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Audio/Footsteps/Grass/slow_grass_walk.wav" type="AudioStream" id=2]
@@ -14,6 +14,10 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.303544
 height = 1.14889
+
+[sub_resource type="SphereMesh" id=39]
+radius = 0.03
+height = 0.06
 
 [sub_resource type="AnimationNodeTransition" id=2]
 input_count = 1
@@ -175,7 +179,7 @@ nodes/ub_transition/node = SubResource( 33 )
 nodes/ub_transition/position = Vector2( 480, 200 )
 nodes/walk_sway_blend/node = SubResource( 34 )
 nodes/walk_sway_blend/position = Vector2( 280, 60 )
-node_connections = [ "output", 0, "shoot", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim" ]
+node_connections = [ "output", 0, "shoot", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm" ]
 
 [sub_resource type="AnimationNodeBlend2" id=36]
 filter_enabled = true
@@ -200,7 +204,7 @@ nodes/shotgun_tree/node = SubResource( 35 )
 nodes/shotgun_tree/position = Vector2( 240, 100 )
 nodes/upper_lower_blend/node = SubResource( 36 )
 nodes/upper_lower_blend/position = Vector2( 660, 120 )
-node_connections = [ "output", 0, "upper_lower_blend", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "current_weapon", 0, "shotgun_tree", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition", "lb_aim_scale", 0, "lb_aim_blendspace", "lb_idle_scale", 0, "lb_idle_blendspace" ]
+node_connections = [ "output", 0, "upper_lower_blend", "current_weapon", 0, "shotgun_tree", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition", "lb_idle_scale", 0, "lb_idle_blendspace", "lb_aim_scale", 0, "lb_aim_blendspace" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=38]
 
@@ -246,6 +250,15 @@ enabled = true
 cast_to = Vector3( 0, 0, -7 )
 collision_mask = 30
 
+[node name="UseCrosshair" type="SpringArm" parent="CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera" index="1"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0, 0 )
+collision_mask = 16
+spring_length = 7.0
+
+[node name="MeshInstance" type="MeshInstance" parent="CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCrosshair" index="0"]
+mesh = SubResource( 39 )
+material/0 = null
+
 [node name="Front" type="Spatial" parent="CamRotationH" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 
@@ -281,6 +294,7 @@ transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -0.005516
 
 [node name="Skeleton" parent="Playermodel" index="0"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+bones/8/bound_children = [ NodePath("WeaponHolder") ]
 
 [node name="Hair Model" parent="Playermodel/Skeleton" index="0"]
 material/0 = ExtResource( 5 )
@@ -322,5 +336,7 @@ parameters/upper_lower_blend/blend_amount = 0.0
 
 [node name="HeadTarget" type="Spatial" parent="." index="7" groups=["targets"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61622, 0 )
+
+[node name="Inventory" type="Node" parent="." index="8"]
 
 [connection signal="anim_step_complete" from="Playermodel/Skeleton/WeaponHolder/Shotgun" to="." method="_anim_animation_step"]
