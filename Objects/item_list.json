@@ -1,0 +1,14 @@
+{
+  "0" : {
+    "id": "0",
+    "name": "shotgun",
+    "desc": "An old trench shotgun, far past its glory days.",
+    "scene": "res://Player/Weapons/shotgun.tscn"
+  },
+  "100" : {
+    "id": "100",
+    "name": "12g",
+    "desc": "Shotgun ammo.",
+    "scene": "NULL"
+  }  
+}

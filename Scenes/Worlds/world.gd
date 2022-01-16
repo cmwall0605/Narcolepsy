@@ -10,23 +10,20 @@ onready var player_scene = preload("res://Player/player.tscn")
 onready var gui_scene = preload("res://Player/GUI/player_gui.tscn")
 onready var marionette_scene = preload("res://NPCs/Enemies/marionette/marionette.tscn")
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Instanstiate the player into the scene
-	MainGameLoop.players = Array()
-	MainGameLoop.instantiate_player(player_scene.instance(), self, player_spawn.global_transform.origin)
+  # Instanstiate the player into the scene
+  MainGameLoop.players = Array()
+  MainGameLoop.instantiate_player(player_scene.instance(), self, player_spawn.global_transform.origin)
 
+  # Instantiate the gui into the scene
+  add_child(gui_scene.instance())
 
+  # Instantiate the marionette into the scene
+  MainGameLoop.actors = Array()
+  MainGameLoop.instantiate_actor(marionette_scene.instance(), self, marionette_spawn.global_transform.origin)
 
-	# Instantiate the gui into the scene
-	add_child(gui_scene.instance())
-
-	# Instantiate the marionette into the scene
-	MainGameLoop.actors = Array()
-	MainGameLoop.instantiate_actor(marionette_scene.instance(), self, marionette_spawn.global_transform.origin)
-
-	# Play Ambience
-	ambience_audio.play()
+  # Play Ambience
+  ambience_audio.play()
 
 

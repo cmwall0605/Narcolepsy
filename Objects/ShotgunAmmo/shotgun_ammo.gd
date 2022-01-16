@@ -1,23 +1,28 @@
 extends StaticBody
 
-var highlighted = false
+#General
+export var ID : String = "100"
+export var COUNT : int = 10
+var highlighted        = false
 
 onready var shader = $MeshInstance.mesh.surface_get_material(0).next_pass
 
 
 func _highlight(val):
-	highlighted = val
-	if highlighted:
-		# activate interact_shader
-		print("ammo on")
-		shader.set_shader_param("border_width", 0.2)
-	else:
-		# deactivate interact_shader
-		print("ammo off")
-		shader.set_shader_param("border_width", 0.0)
+  highlighted = val
+  if highlighted:
+    # activate interact_shader
+    print("ammo on")
+    shader.set_shader_param("border_width", 0.2)
+  else:
+    # deactivate interact_shader
+    print("ammo off")
+    shader.set_shader_param("border_width", 0.0)
 
 func _use():
-	open_door()
+  pickup()
 
-func open_door():
-	print("*woosh*")
+func pickup():
+  PlayerInfo.add_ammo(MainGameLoop.get_item(ID), COUNT)
+  hide()
+  queue_free()

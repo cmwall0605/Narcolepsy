@@ -1,9 +1,8 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Assets/Audio/Footsteps/Grass/med_grass_walk.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Audio/Footsteps/Grass/slow_grass_walk.wav" type="AudioStream" id=2]
 [ext_resource path="res://Player/player.gd" type="Script" id=3]
-[ext_resource path="res://Player/Weapons/shotgun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Materials/hair.tres" type="Material" id=5]
 [ext_resource path="res://Assets/Materials/turtleneck.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Materials/shoes.tres" type="Material" id=7]
@@ -18,67 +17,6 @@ height = 1.14889
 [sub_resource type="SphereMesh" id=39]
 radius = 0.03
 height = 0.06
-
-[sub_resource type="AnimationNodeTransition" id=2]
-input_count = 1
-input_0/name = "state 0"
-input_0/auto_advance = false
-
-[sub_resource type="AnimationNodeAnimation" id=3]
-animation = "playermodel_walk_aim_back-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=4]
-animation = "playermodel_walk_aim_forward-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=5]
-animation = "playermodel_walk_aim_left-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "playermodel_walk_aim_right-loop"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=7]
-blend_point_0/node = SubResource( 3 )
-blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 4 )
-blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 5 )
-blend_point_2/pos = Vector2( -1, 0 )
-blend_point_3/node = SubResource( 6 )
-blend_point_3/pos = Vector2( 1, 0 )
-
-[sub_resource type="AnimationNodeTimeScale" id=8]
-
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "playermodel_walk_idle_back-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=10]
-animation = "playermodel_walk_idle_forward-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "playermodel_walk_idle_right-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=12]
-animation = "playermodel_walk_idle_left-loop"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=13]
-blend_point_0/node = SubResource( 9 )
-blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 10 )
-blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 11 )
-blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 12 )
-blend_point_3/pos = Vector2( -1, 0 )
-
-[sub_resource type="AnimationNodeTimeScale" id=14]
-
-[sub_resource type="AnimationNodeTransition" id=15]
-input_count = 2
-xfade_time = 0.1
-input_0/name = "idle"
-input_0/auto_advance = false
-input_1/name = "aim"
-input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeAnimation" id=16]
 animation = "playermodel_reload_shotgun_end_E"
@@ -179,14 +117,77 @@ nodes/ub_transition/node = SubResource( 33 )
 nodes/ub_transition/position = Vector2( 480, 200 )
 nodes/walk_sway_blend/node = SubResource( 34 )
 nodes/walk_sway_blend/position = Vector2( 280, 60 )
-node_connections = [ "output", 0, "shoot", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm" ]
+node_connections = [ "output", 0, "shoot", "ub_transition", 0, "walk_sway_blend", "ub_transition", 1, "ub_aim_anim", "ub_transition", 2, "reload_fsm", "shoot", 0, "ub_transition", "shoot", 1, "shoot_anim", "walk_sway_blend", 0, "ub_idle_anim", "walk_sway_blend", 1, "sway_anim" ]
+
+[sub_resource type="AnimationNodeTransition" id=2]
+input_count = 1
+input_0/name = "state 0"
+input_0/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "playermodel_walk_aim_back-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "playermodel_walk_aim_forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "playermodel_walk_aim_left-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "playermodel_walk_aim_right-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=7]
+blend_point_0/node = SubResource( 3 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 4 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 5 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 6 )
+blend_point_3/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeTimeScale" id=8]
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "playermodel_walk_idle_back-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "playermodel_walk_idle_forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "playermodel_walk_idle_right-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "playermodel_walk_idle_left-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=13]
+blend_point_0/node = SubResource( 9 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 10 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 11 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 12 )
+blend_point_3/pos = Vector2( -1, 0 )
+
+[sub_resource type="AnimationNodeTimeScale" id=14]
+
+[sub_resource type="AnimationNodeTransition" id=15]
+input_count = 2
+xfade_time = 0.1
+input_0/name = "idle"
+input_0/auto_advance = false
+input_1/name = "aim"
+input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeBlend2" id=36]
 filter_enabled = true
 filters = [ "Playermodel/Skeleton:body", "Playermodel/Skeleton:foot.l", "Playermodel/Skeleton:foot.r", "Playermodel/Skeleton:lowerleg.l", "Playermodel/Skeleton:lowerleg.r", "Playermodel/Skeleton:uppperleg.l", "Playermodel/Skeleton:uppperleg.r" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=37]
-graph_offset = Vector2( -297.115, 15.7564 )
+graph_offset = Vector2( 0, 64.75 )
+nodes/0_tree/node = SubResource( 35 )
+nodes/0_tree/position = Vector2( 240, 100 )
 nodes/current_weapon/node = SubResource( 2 )
 nodes/current_weapon/position = Vector2( 440, 80 )
 nodes/lb_aim_blendspace/node = SubResource( 7 )
@@ -200,11 +201,9 @@ nodes/lb_idle_scale/position = Vector2( 220, 260 )
 nodes/lb_transition/node = SubResource( 15 )
 nodes/lb_transition/position = Vector2( 400, 320 )
 nodes/output/position = Vector2( 880, 120 )
-nodes/shotgun_tree/node = SubResource( 35 )
-nodes/shotgun_tree/position = Vector2( 240, 100 )
 nodes/upper_lower_blend/node = SubResource( 36 )
 nodes/upper_lower_blend/position = Vector2( 660, 120 )
-node_connections = [ "output", 0, "upper_lower_blend", "current_weapon", 0, "shotgun_tree", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition", "lb_idle_scale", 0, "lb_idle_blendspace", "lb_aim_scale", 0, "lb_aim_blendspace" ]
+node_connections = [ "output", 0, "upper_lower_blend", "lb_transition", 0, "lb_idle_scale", "lb_transition", 1, "lb_aim_scale", "lb_aim_scale", 0, "lb_aim_blendspace", "lb_idle_scale", 0, "lb_idle_blendspace", "current_weapon", 0, "0_tree", "upper_lower_blend", 0, "current_weapon", "upper_lower_blend", 1, "lb_transition" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=38]
 
@@ -294,7 +293,6 @@ transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -0.005516
 
 [node name="Skeleton" parent="Playermodel" index="0"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
-bones/8/bound_children = [ NodePath("WeaponHolder") ]
 
 [node name="Hair Model" parent="Playermodel/Skeleton" index="0"]
 material/0 = ExtResource( 5 )
@@ -309,9 +307,6 @@ material/3 = ExtResource( 7 )
 transform = Transform( 0.315185, 0.87004, -0.379064, -0.260368, -0.304822, -0.916129, -0.912615, 0.387446, 0.130455, -0.0347186, 1.21807, 0.193249 )
 bone_name = "hand.r"
 
-[node name="Shotgun" parent="Playermodel/Skeleton/WeaponHolder" index="0" instance=ExtResource( 4 )]
-transform = Transform( 0.973407, 0.168226, -0.155494, 0.114601, 0.230132, 0.966388, 0.198356, -0.958509, 0.204733, 0.0310345, 0.0890506, -0.0135127 )
-
 [node name="SpineIK" type="SkeletonIK" parent="Playermodel/Skeleton" index="3"]
 process_priority = 1
 root_bone = "body"
@@ -322,21 +317,19 @@ target_node = NodePath("../../../IKTargetNormalizer/SpineIKTarget")
 tree_root = SubResource( 37 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
+parameters/0_tree/reload_fsm/playback = SubResource( 38 )
+parameters/0_tree/shoot/active = false
+parameters/0_tree/ub_transition/current = 0
+parameters/0_tree/walk_sway_blend/blend_amount = 0
 parameters/current_weapon/current = 0
 parameters/lb_aim_blendspace/blend_position = Vector2( 0, 0 )
 parameters/lb_aim_scale/scale = 0.4
 parameters/lb_idle_blendspace/blend_position = Vector2( 0, 0 )
 parameters/lb_idle_scale/scale = 1.0
 parameters/lb_transition/current = 0
-parameters/shotgun_tree/reload_fsm/playback = SubResource( 38 )
-parameters/shotgun_tree/shoot/active = false
-parameters/shotgun_tree/ub_transition/current = 0
-parameters/shotgun_tree/walk_sway_blend/blend_amount = 0
 parameters/upper_lower_blend/blend_amount = 0.0
 
 [node name="HeadTarget" type="Spatial" parent="." index="7" groups=["targets"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61622, 0 )
 
 [node name="Inventory" type="Node" parent="." index="8"]
-
-[connection signal="anim_step_complete" from="Playermodel/Skeleton/WeaponHolder/Shotgun" to="." method="_anim_animation_step"]

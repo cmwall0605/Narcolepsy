@@ -55,7 +55,7 @@ visible = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.33812, 0, 11.9975 )
 
 [node name="MarionetteSpawnLocation" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.973, -0.206656, 2.89947 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.39767, -0.206656, -17.0176 )
 
 [node name="plateau_large" parent="." groups=["environment"] instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0906372, -19.8987, -0.104198 )

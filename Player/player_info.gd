@@ -21,97 +21,133 @@ var inventory = {"weapon_inv" : {}, "ammo_inv": {}, "active_inv": {},
 # APPEND FUNCTIONS
 # Add item to appropriate inventory; return true if successful and false 
 # otherwise.
-func add_weapon(weapon):
-  if (inventory["weapon_inv"].has(weapon.item_name)):
+func add_weapon(weapon, count = 1):
+  if (inventory["weapon_inv"].has(weapon.id)):
+    inventory["weapon_inv"][weapon.id].add_count(count)
     return false
-  inventory["weapon_inv"][weapon.item_name] = weapon
+  var item = Item.new(weapon, count)
+  inventory["weapon_inv"][weapon.id] = item
   return true
 
-func add_ammo(ammo):
-  if (inventory["ammo_inv"].has(ammo.item_name)):
+func add_ammo(ammo, count = 1):
+  if (inventory["ammo_inv"].has(ammo.id)):
+    inventory["ammo_inv"][ammo.id].add_count(count)
     return false
-  inventory["ammo_inv"][ammo.item_name] = ammo
+  var item = Item.new(ammo, count)
+  inventory["ammo_inv"][ammo.id] = item
   return true
 
-func add_active(active):
-  if (inventory["active_inv"].has(active.item_name)):
+func add_active(active, count = 1):
+  if (inventory["active_inv"].has(active.id)):
+    inventory["active_inv"][active.id].add_count(count)
     return false
-  inventory["active_inv"][active.item_name] = active
+  var item = Item.new(active, count)
+  inventory["active_inv"][active.id] = item
   return true
 
-func add_passive(passive):
-  if (inventory["passive_inv"].has(passive.item_name)):
+func add_passive(passive, count = 1):
+  if (inventory["passive_inv"].has(passive.id)):
+    inventory["passive_inv"][passive.id].add_count(count)
     return false
-  inventory["passive_inv"][passive.item_name] = passive
+  var item = Item.new(passive, count)
+  inventory["passive_inv"][passive.id] = item
   return true
 
-func add_quest(quest):
-  if (inventory["quest_inv"].has(quest.item_name)):
+func add_quest(quest, count = 1):
+  if (inventory["quest_inv"].has(quest.id)):
+    inventory["quest_inv"][quest.id].add_count(count)
     return false
-  inventory["quest_inv"][quest.item_name] = quest
+  var item = Item.new(quest, count)
+  inventory["quest_inv"][quest.id] = item
   return true
 
 
 # REMOVAL FUNCTIONS
 # Remove item from its inventory; return true if successful and false otherwise.
-func remove_weapon(weapon):
-  if (inventory["weapon_inv"].has(weapon.item_name)):
-    inventory["weapon_inv"].erase(weapon.item_name)
-    return true
+func remove_weapon(id, count):
+  if (inventory["weapon_inv"].has(id)):
+    var item = inventory["weapon_inv"][id]
+    var newCount  = item.count - count
+    if(newCount > 0):
+      item.sub_count(count)
+    else:
+      inventory["weapon_inv"].erase(id)
   return false
 
-func remove_ammo(ammo):
-  if (inventory["ammo_inv"].has(ammo.item_name)):
-    inventory["ammo_inv"].erase(ammo.item_name)
-    return true
+func remove_ammo(id, count):
+  if (inventory["ammo_inv"].has(id)):
+    var item = inventory["ammo_inv"][id]
+    var newCount  = item.count - count
+    if(newCount > 0):
+      item.sub_count(count)
+    else:
+      inventory["ammo_inv"].erase(id)
   return false
 
-func remove_active(active):
-  if (inventory["active_inv"].has(active.item_name)):
-    inventory["active_inv"].erase(active.item_name)
-    return true
+func remove_active(id, count):
+  if (inventory["active_inv"].has(id)):
+    var item = inventory["active_inv"][id]
+    var newCount  = item.count - count
+    if(newCount > 0):
+      item.sub_count(count)
+    else:
+      inventory["active_inv"].erase(id)
   return false
 
-func remove_passive(passive):
-  if (inventory["passive_inv"].has(passive.item_name)):
-    inventory["passive_inv"].erase(passive.item_name)
-    return true
+func remove_passive(id, count):
+  if (inventory["passive_inv"].has(id)):
+    var item = inventory["passive_inv"][id]
+    var newCount  = item.count - count
+    if(newCount > 0):
+      item.sub_count(count)
+    else:
+      inventory["passive_inv"].erase(id)
   return false
 
-func remove_quest(quest):
-  if (inventory["quest_inv"].has(quest.item_name)):
-    inventory["quest_inv"].erase(quest.item_name)
-    return true
+func remove_quest(id, count):
+  if (inventory["quest_inv"].has(id)):
+    var item = inventory["quest_inv"][id]
+    var newCount  = item.count - count
+    if(newCount > 0):
+      item.sub_count(count)
+    else:
+      inventory["quest_inv"].erase(id)
   return false
 
 # GET FUNCTIONS 
 # get the item from the inventory it should be via its name. Return the item
 # if it is in the inventory and null otherwise.
-func get_ammo(ammo_name):
-  if (inventory["ammo_inv"].has(ammo_name)):
-    return inventory["ammo_inv"][ammo_name]
+
+func get_weapon(id):
+  if (inventory["weapon_inv"].has(id)):
+    return inventory["weapon_inv"][id]
   return null
 
-func get_active(active_name):
-  if (inventory["active_inv"].has(active_name)):
-    return inventory["active_inv"][active_name]
+func get_ammo(id):
+  if (inventory["ammo_inv"].has(id)):
+    return inventory["ammo_inv"][id]
   return null
 
-func get_passive(passive_name):
-  if (inventory["passive_inv"].has(passive_name)):
-    return inventory["passive_inv"][passive_name]
+func get_active(id):
+  if (inventory["active_inv"].has(id)):
+    return inventory["active_inv"][id]
+  return null
+
+func get_passive(id):
+  if (inventory["passive_inv"].has(id)):
+    return inventory["passive_inv"][id]
   return null
   
-func get_quest(quest_name):
-  if (inventory["quest_inv"].has(quest_name)):
-    return inventory["quest_inv"][quest_name]
+func get_quest(id):
+  if (inventory["quest_inv"].has(id)):
+    return inventory["quest_inv"][id]
   return null
 
 func save():
   var save_dict = {
-      "filename" : get_filename(),
-      "parent" : get_parent().get_path(),
-      "current_health" : current_hp,
-      "inventory" : inventory
+    "filename" : get_filename(),
+    "parent" : get_parent().get_path(),
+    "current_health" : current_hp,
+    "inventory" : inventory
   }
   return save_dict
