@@ -14,9 +14,9 @@ export var WALK_PROGRESSION_RATE : float = 0.1
 export var AIM_PROGRESSION_RATE : float = 0.1
 # Camera
 export var CAMERA_FOV : float = 50.0
-export var CAMERA_ARM_Z_BASE_LENGTH : float = 4
+export var CAMERA_ARM_Z_BASE_LENGTH : float = 2.5
 export var CAMERA_ZOOM : float = 1
-export var CAMERA_ZOOM_RATE : float = 0.1
+export var CAMERA_ZOOM_RATE : float = 10
 # Mouse Input
 export(float, 0.1, 1) var MOUSE_SENSITIVITY : float = 0.3
 export(float, -90, 0) var MIN_PITCH : float = -60
@@ -39,8 +39,8 @@ onready var camera = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOf
 onready var camera_arm_z = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ
 onready var front = $CamRotationH/Front
 # Playermodel
-onready var player_model = $Playermodel
-onready var ik_spine = $Playermodel/Skeleton/SpineIK
+onready var player_model = $Armature
+onready var ik_spine = $Armature/Skeleton/SpineIK
 onready var ik_spine_target = $IKTargetNormalizer
 # Animations
 onready var player_anim_tree = $AnimationTree
@@ -50,10 +50,11 @@ onready var slow_footstep_audio = $AudioManager/SlowFootStepAudio
 onready var med_footstep_audio = $AudioManager/MedFootStepAudio
 # Items
 var current_item
-onready var weapon_holder = $Playermodel/Skeleton/WeaponHolder
+onready var weapon_holder = $Armature/Skeleton/WeaponHolder
 # Use
 onready var use_raycast = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCast
 onready var use_crosshair = $CamRotationH/CamRotationV/CameraBoomX/CameraBoomZ/CameraOffset/Camera/UseCrosshair
+onready var use_highlight_timer = $HighlightTimer
 
 ###############
 ## VARIABLES ##
@@ -79,24 +80,28 @@ var highlighted_object : StaticBody = null
 # variables that only exist after creation.
 func _ready():
   Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-  update_highlight()
   use_crosshair.visible = false
   camera.fov = CAMERA_FOV
   if(MainGameLoop.is_new):
     PlayerInfo.add_weapon(MainGameLoop.get_item("0"), 1)
-  set_equipment(PlayerInfo.get_weapon("0").spatial)
+    PlayerInfo.add_weapon(MainGameLoop.get_item("1"), 1)
+  var base_weapon = PlayerInfo.get_weapon("1")
+  if base_weapon != null:
+    set_equipment(PlayerInfo.get_weapon("1").spatial)
+  else:
+    set_equipment(null)
 
 # Ran at every frame; Sets the state, zoom, animation, and audio.
 func _process(delta):
+  update_highlight()
   handle_state()
   handle_zoom(delta)
   handle_anim()
   handle_audio()
 
 func update_highlight():
-  while true:
-    yield(get_tree().create_timer(USE_TIME), "timeout")
-    yield(get_tree(),"physics_frame")
+  if use_highlight_timer.is_stopped():
+    use_highlight_timer.start(USE_TIME)
     if current_state == State.IDLE:
       use_raycast.force_raycast_update()
       var collision = use_raycast.get_collider()
@@ -119,20 +124,28 @@ func _physics_process(delta):
 func _input(event):
   # Ran when the mouse is moved.
   if event is InputEventMouseMotion:
+    handle_cam_movement(event.relative.y * MOUSE_SENSITIVITY, event.relative.x * MOUSE_SENSITIVITY)
+  if event.is_action_pressed("use"):
+    handle_use()
+  if Input.is_key_pressed(KEY_1) && current_state == State.IDLE:
+    set_equipment(PlayerInfo.get_weapon("0").spatial)
+  if Input.is_key_pressed(KEY_2) && current_state == State.IDLE:
+    set_equipment(PlayerInfo.get_weapon("1").spatial)
+  if Input.is_key_pressed(KEY_3) && current_state == State.IDLE:
+    set_equipment(null)
 
+func handle_cam_movement(vertical, horizontal):
     # Handle vertical and horizontal rotation of the camera
-    cam_rot_v.rotation_degrees.x -= event.relative.y * MOUSE_SENSITIVITY
+    cam_rot_v.rotation_degrees.x -= vertical
     cam_rot_v.rotation_degrees.x = clamp(cam_rot_v.rotation_degrees.x, MIN_PITCH, MAX_PITCH)
-    cam_rot_h.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
+    cam_rot_h.rotation_degrees.y -= horizontal
 
     # Handle playermodel movement
     if aim_mode:
-      player_model.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
-    ik_spine_target.rotation_degrees.y -= event.relative.x * MOUSE_SENSITIVITY
-    ik_spine_target.rotation_degrees.x += event.relative.y * MOUSE_SENSITIVITY
+      player_model.rotation_degrees.y -= horizontal
+    ik_spine_target.rotation_degrees.y -= horizontal
+    ik_spine_target.rotation_degrees.x += vertical
     ik_spine_target.rotation_degrees.x = clamp(ik_spine_target.rotation_degrees.x, MIN_PITCH, MAX_PITCH)
-  if event.is_action_pressed("use"):
-    handle_use()
 
 func handle_use():
   if current_state != State.IDLE || highlighted_object == null:
@@ -143,14 +156,21 @@ func handle_use():
 
 # Sets the equipment of the player
 func set_equipment(item : Spatial):
-  current_item = item
-  if(current_item.get_parent() != null):
+  if(current_item != null and current_item.get_parent() != null):
     current_item.get_parent().remove_child(current_item)
+    current_item.disconnect("anim_step_complete", self, "_anim_animation_step")
+  if item == null:
+    current_item = null
+    current_weapon_blend_tree = "empty_tree"
+    player_anim_tree.set("parameters/current_weapon/current", 0)
+    return
+  current_item = item
   current_item.transform = current_item.DEFAULT_TRANSFORM
   weapon_holder.add_child(current_item)
-  current_item.connect("anim_step_complete", self, "_anim_animation_step") 
+  current_item.connect("anim_step_complete", self, "_anim_animation_step")
   current_weapon_blend_tree = "%s_tree" % current_item.get_weapon_id()
   reload_anim_fsm = player_anim_tree.get("parameters/%s/reload_fsm/playback" % current_weapon_blend_tree)
+  player_anim_tree.set("parameters/current_weapon/current", current_item.ANIM_POS)
 
 func handle_state():
   # State Check
@@ -166,7 +186,6 @@ func handle_state():
         handle_aim()
       # IDLE -> RELOAD_START
       elif Input.is_action_just_pressed("reload") and can_reload():
-        print("da fuc")
         handle_reload()
 
     State.SPRINT: #TODO
@@ -236,6 +255,8 @@ func handle_reload():
         current_item.reload_gun_end()
 
 func handle_aim():
+  if current_item == null:
+    return
   if(current_state == State.IDLE):
     current_state = State.AIM
     player_anim_tree.set("parameters/%s/ub_transition/current" % current_weapon_blend_tree, AnimationState.AIM)
@@ -264,12 +285,17 @@ func handle_death():
 func handle_zoom(delta):
   camera_arm_z.spring_length += -CAMERA_ZOOM_RATE * delta if aim_mode else CAMERA_ZOOM_RATE * delta
   camera_arm_z.spring_length = clamp(camera_arm_z.spring_length, CAMERA_ARM_Z_BASE_LENGTH - CAMERA_ZOOM, CAMERA_ARM_Z_BASE_LENGTH)
+  
 
 # Handle the shooting coming from the player
 func handle_shooting():
   if(current_state == State.AIM):
     current_state = State.SHOOT
     current_item.shoot_gun()
+    
+    # Apply recoil
+    handle_cam_movement(current_item.RECOIL, 0)
+    
     # Shoot animation handler
     player_anim_tree.set("parameters/%s/shoot/active" % current_weapon_blend_tree, true)
   else:

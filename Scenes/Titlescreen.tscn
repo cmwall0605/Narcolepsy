@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://GUI/Main_Menu/ExitButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GUI/Main_Menu/NewGameButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GUI/Main_Menu/LoadGameButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GUI/Main_Menu/OptionsButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Textures/menu_background_lowres.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Fonts/baskerville_12.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Assets/Fonts/MajorMonoDisplay-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Scenes/Titlescreen.gd" type="Script" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 7 )
+
+[node name="TitleScreen" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 136.0
+margin_top = 253.0
+margin_right = -1372.0
+margin_bottom = -656.0
+rect_scale = Vector2( 4, 4 )
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewGameButton" parent="Buttons" instance=ExtResource( 2 )]
+margin_top = 87.0
+margin_bottom = 105.0
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+
+[node name="LoadGameButton" parent="Buttons" instance=ExtResource( 3 )]
+margin_top = 109.0
+margin_bottom = 127.0
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+
+[node name="OptionsButton" parent="Buttons" instance=ExtResource( 4 )]
+margin_top = 131.0
+margin_bottom = 149.0
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+scene_to_load = "Options"
+
+[node name="ExitButton" parent="Buttons" instance=ExtResource( 1 )]
+margin_top = 153.0
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+
+[node name="Title" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1440.0
+margin_bottom = -1030.0
+rect_scale = Vector2( 4, 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+custom_fonts/font = SubResource( 1 )
+text = "Narcolepsy"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomText" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -66.0
+margin_right = -1440.0
+margin_bottom = -50.0
+rect_scale = Vector2( 4, 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "©2022 Chad Wall"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -3,12 +3,24 @@
     "id": "0",
     "name": "shotgun",
     "desc": "An old trench shotgun, far past its glory days.",
-    "scene": "res://Player/Weapons/shotgun.tscn"
+    "scene": "res://Weapons/Shotgun.tscn"
+  },
+  "1" : {
+    "id": "1",
+    "name": "pistol",
+    "desc": "A jericho pistol chambered in .45 ACP",
+    "scene": "res://Weapons/Pistol.tscn"
   },
   "100" : {
     "id": "100",
     "name": "12g",
-    "desc": "Shotgun ammo.",
+    "desc": "Shotgun ammo",
     "scene": "NULL"
-  }  
+  },
+  "101" : {
+    "id": "101",
+    "name": ".45 ACP",
+    "desc": "Pistol ammo",
+    "scene": "NULL"
+  }
 }

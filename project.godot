@@ -12,24 +12,32 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Item",
 "language": "GDScript",
-"path": "res://Misc/item.gd"
+"path": "res://Misc/Item.gd"
+}, {
+"base": "Resource",
+"class": "SaveGame",
+"language": "GDScript",
+"path": "res://Systems/Save/SaveGame.gd"
 } ]
 _global_script_class_icons={
-"Item": ""
+"Item": "",
+"SaveGame": ""
 }
 
 [application]
 
 config/name="Narcolepsy"
-run/main_scene="res://Scenes/title_screen.tscn"
+run/main_scene="res://Scenes/Titlescreen.tscn"
+config/use_custom_user_dir=true
 config/icon="res://icon.png"
+config/version="0.0.1"
 
 [autoload]
 
-PathfindingManager="*res://Misc/pathfinding_manager.tscn"
-MainGameLoop="*res://GameManagement/main_game_loop.gd"
+PathfindingManager="*res://Misc/PathfindingManager.tscn"
+MainGameLoop="*res://Systems/MainGameLoop/MainGameLoop.gd"
 Ps1Dithering="*res://Misc/PS1Dithering.tscn"
-PlayerInfo="*res://Player/player_info.tscn"
+PlayerInfo="*res://Player/PlayerInfo.tscn"
 
 [display]
 

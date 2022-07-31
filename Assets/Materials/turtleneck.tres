@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[ext_resource path="res://Assets/Textures/turtleneck_lowres.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/turtleneck_face_lowres.png" type="Texture" id=1]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type spatial;
@@ -58,6 +58,6 @@ shader = SubResource( 1 )
 shader_param/jitter = 0.2
 shader_param/jitter_z_coordinate = true
 shader_param/jitter_depth_independent = true
-shader_param/affine_texture_mapping = true
-shader_param/alpha_scissor = 1.0
+shader_param/affine_texture_mapping = false
+shader_param/alpha_scissor = 0.0
 shader_param/albedo = ExtResource( 1 )

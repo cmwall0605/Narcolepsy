@@ -1,4 +1,3 @@
-
 class_name Item
 
 var item_id : String
@@ -27,4 +26,3 @@ func add_count(amount):
   
 func sub_count(amount):
   count -= amount
-  

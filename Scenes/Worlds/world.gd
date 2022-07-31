@@ -6,9 +6,9 @@ onready var player_spawn = $PlayerSpawnLocation
 onready var marionette_spawn = $MarionetteSpawnLocation
 
 # Get items 
-onready var player_scene = preload("res://Player/player.tscn")
-onready var gui_scene = preload("res://Player/GUI/player_gui.tscn")
-onready var marionette_scene = preload("res://NPCs/Enemies/marionette/marionette.tscn")
+onready var player_scene = preload("res://Player/Player.tscn")
+onready var gui_scene = preload("res://GUI/GameUI/PlayerGUI.tscn")
+onready var marionette_scene = preload("res://NPCs/Enemies/marionette/Marionette.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,5 +25,7 @@ func _ready():
 
   # Play Ambience
   ambience_audio.play()
+  
+  PlayerInfo.set_is_playing(true)
 
 

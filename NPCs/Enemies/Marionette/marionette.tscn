@@ -1,13 +1,17 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Assets/Materials/vines.tres" type="Material" id=1]
 [ext_resource path="res://Assets/Materials/bark_face.tres" type="Material" id=2]
-[ext_resource path="res://NPCs/Enemies/face_target.gd" type="Script" id=3]
-[ext_resource path="res://NPCs/Enemies/Marionette/marionette.gd" type="Script" id=4]
+[ext_resource path="res://NPCs/Enemies/FaceTarget.gd" type="Script" id=3]
+[ext_resource path="res://NPCs/Enemies/Marionette/Marionette.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Meshes/marionette.glb" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.82
+
+[sub_resource type="CapsuleShape" id=53]
+radius = 0.337204
+height = 3.30068
 
 [sub_resource type="AnimationNodeAnimation" id=2]
 animation = "attack_1"
@@ -72,7 +76,7 @@ end_node = "idle_high"
 graph_offset = Vector2( 318, 191 )
 
 [sub_resource type="AnimationNodeBlendTree" id=18]
-graph_offset = Vector2( -22, 121 )
+graph_offset = Vector2( -22, 72.0833 )
 nodes/monster_fsm/node = SubResource( 17 )
 nodes/monster_fsm/position = Vector2( 620, 60 )
 nodes/output/position = Vector2( 800, 60 )
@@ -217,57 +221,27 @@ script = ExtResource( 4 )
 ROTATION_SPPED = 400.0
 BASE_DMG = 25
 
-[node name="CollisionShape" type="CollisionShape" parent="." index="2"]
+[node name="CollisionShapeDown" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0 )
 shape = SubResource( 1 )
+disabled = true
 script = ExtResource( 3 )
 
-[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+[node name="CollisionShapeUp" type="CollisionShape" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.97481, 0 )
+shape = SubResource( 53 )
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="4"]
 tree_root = SubResource( 18 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/monster_fsm/playback = SubResource( 19 )
 
-[node name="MarionetteModel" parent="." index="4"]
+[node name="MarionetteModel" parent="." index="5"]
 script = ExtResource( 3 )
 
 [node name="Skeleton" parent="MarionetteModel" index="0"]
 transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 10, 0 )
-bones/0/bound_children = [ NodePath("BodyHitbox") ]
-bones/1/bound_children = [ NodePath("NeckHitbox") ]
-bones/2/bound_children = [ NodePath("HeadHitbox") ]
-bones/3/bound_children = [ NodePath("LeftLegHitbox") ]
-bones/4/bound_children = [ NodePath("LeftLegHitbox2") ]
-bones/5/bound_children = [ NodePath("LeftLegHitbox3") ]
-bones/6/bound_children = [ NodePath("LeftShoulderHitbox") ]
-bones/7/bound_children = [ NodePath("LeftUpperArmHitbox") ]
-bones/8/bound_children = [ NodePath("LeftLowerArmHitbox") ]
-bones/9/bound_children = [ NodePath("LeftVineRightHitbox") ]
-bones/10/bound_children = [ NodePath("LeftVineRightHitbox2") ]
-bones/11/bound_children = [ NodePath("LeftVineRightHitbox3") ]
-bones/12/bound_children = [ NodePath("LeftVineLeftHitbox") ]
-bones/13/bound_children = [ NodePath("LeftVineLeftHitbox2") ]
-bones/14/bound_children = [ NodePath("LeftVineLeftHitbox3") ]
-bones/15/bound_children = [ NodePath("LeftVineLeftHitbox4") ]
-bones/16/bound_children = [ NodePath("LeftVineLeftHitbox5") ]
-bones/17/bound_children = [ NodePath("LeftVineMidHitbox") ]
-bones/18/bound_children = [ NodePath("LeftVineMidHitbox2") ]
-bones/19/bound_children = [ NodePath("LeftVineMidHitbox3") ]
-bones/20/bound_children = [ NodePath("RightLegHitbox") ]
-bones/21/bound_children = [ NodePath("RightLegHitbox2") ]
-bones/22/bound_children = [ NodePath("RightLegHitbox3") ]
-bones/23/bound_children = [ NodePath("ShoulderRightHitbox") ]
-bones/24/bound_children = [ NodePath("VineTopHitbox") ]
-bones/25/bound_children = [ NodePath("RightVineTopHitbox") ]
-bones/26/bound_children = [ NodePath("RightVineTopHitbox2") ]
-bones/27/bound_children = [ NodePath("RightVineTopHitbox3") ]
-bones/28/bound_children = [ NodePath("RightVineTopHitbox4") ]
-bones/29/bound_children = [ NodePath("RightVineHitbox") ]
-bones/30/bound_children = [ NodePath("RightVineHitbox2") ]
-bones/31/bound_children = [ NodePath("RightVineHitbox3") ]
-bones/32/bound_children = [ NodePath("RightVineHitbox4") ]
-bones/33/bound_children = [ NodePath("RightVineHitbox5") ]
-bones/34/bound_children = [ NodePath("RightVineHitbox6") ]
 
 [node name="Model" parent="MarionetteModel/Skeleton" index="0"]
 material/0 = ExtResource( 2 )
@@ -774,11 +748,11 @@ collision_layer = 32
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.169527, 0.130713 )
 shape = SubResource( 52 )
 
-[node name="AttackCooldownTimer" type="Timer" parent="." index="6"]
+[node name="AttackCooldownTimer" type="Timer" parent="." index="7"]
 process_mode = 0
 one_shot = true
 
-[node name="AttackHitTimer" type="Timer" parent="." index="7"]
+[node name="AttackHitTimer" type="Timer" parent="." index="8"]
 process_mode = 0
 wait_time = 0.5
 one_shot = true

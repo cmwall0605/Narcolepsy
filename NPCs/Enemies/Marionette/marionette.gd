@@ -31,7 +31,8 @@ enum State {IDLE, TRANSFORM, CHASE, SEARCH, RETURN, DEAD, ATTACK}
 onready var head_movement_y = $MarionetteModel/Skeleton/HeadMovementTargetY
 onready var head_movement_x = $MarionetteModel/Skeleton/HeadMovementTargetY/HeadMovementTargetX
 onready var head_movement_ik = $MarionetteModel/Skeleton/HeadMovement
-onready var collision_shape = $CollisionShape
+onready var collision_shape_down = $CollisionShapeDown
+onready var collision_shape_up = $CollisionShapeUp
 onready var model = $MarionetteModel
 onready var attack_cooldown_timer = $AttackCooldownTimer
 onready var attack_hit_timer = $AttackHitTimer
@@ -131,6 +132,8 @@ func handle_state():
       if is_agro:
         anim_fsm.travel("idle_low")
         head_movement_ik.stop()
+        collision_shape_up.disabled = true
+        collision_shape_down.disabled = false
         current_state = State.TRANSFORM
         
     State.TRANSFORM:
@@ -219,7 +222,7 @@ func handle_movement(delta):
     return
 
   # Rotate regardless of if it should move
-  collision_shape.face_point(pm_target.global_transform.origin, \
+  collision_shape_down.face_point(pm_target.global_transform.origin, \
                              delta, ROTATION_SPPED)
   model.face_point(pm_target.global_transform.origin, delta, ROTATION_SPPED)
 
@@ -237,7 +240,7 @@ func handle_movement(delta):
     else:
       anim_fsm.travel("idle_low")
     # Move using the velocity vector.
-    move_and_slide(velocity * MOVEMENT_SPEED, Vector3.UP)
+    var _movement = move_and_slide(velocity * MOVEMENT_SPEED, Vector3.UP)
 
 # Function called from the shotgun when the player fires it.
 func _bullet_hit(_damage, _part, _pos):
@@ -245,6 +248,7 @@ func _bullet_hit(_damage, _part, _pos):
   var isHead = regexHead.search(_part)
   var damage = _damage * 2 if isHead else _damage
   current_hp -=  damage
+  print("Health Left: %f" % current_hp)
 
 func get_target_move_pos():
   var actual_target = pm_target.global_transform.origin
