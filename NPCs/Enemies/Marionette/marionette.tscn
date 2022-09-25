@@ -8,6 +8,7 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.82
+height = 0.002
 
 [sub_resource type="CapsuleShape" id=53]
 radius = 0.337204
@@ -67,16 +68,16 @@ states/high_to_low/position = Vector2( 164, 236 )
 states/idle_high/node = SubResource( 5 )
 states/idle_high/position = Vector2( 164, 82 )
 states/idle_low/node = SubResource( 6 )
-states/idle_low/position = Vector2( 373, 236 )
+states/idle_low/position = Vector2( 374, 236 )
 states/move/node = SubResource( 7 )
 states/move/position = Vector2( 771, 82 )
 transitions = [ "idle_high", "high_to_low", SubResource( 8 ), "high_to_low", "idle_low", SubResource( 9 ), "idle_low", "death", SubResource( 10 ), "move", "death", SubResource( 11 ), "attack", "death", SubResource( 12 ), "move", "attack", SubResource( 13 ), "attack", "idle_low", SubResource( 14 ), "idle_low", "move", SubResource( 15 ), "move", "idle_low", SubResource( 16 ) ]
 start_node = "idle_high"
 end_node = "idle_high"
-graph_offset = Vector2( 318, 191 )
+graph_offset = Vector2( 2, -12 )
 
 [sub_resource type="AnimationNodeBlendTree" id=18]
-graph_offset = Vector2( -22, 72.0833 )
+graph_offset = Vector2( 153, 32.25 )
 nodes/monster_fsm/node = SubResource( 17 )
 nodes/monster_fsm/position = Vector2( 620, 60 )
 nodes/output/position = Vector2( 800, 60 )
@@ -216,13 +217,13 @@ extents = Vector3( 1.28733, 0.111917, 1.72904 )
 
 [node name="Marionette" groups=["enemy_collision"] instance=ExtResource( 5 )]
 collision_layer = 4
-collision_mask = 8
+collision_mask = 25
 script = ExtResource( 4 )
 ROTATION_SPPED = 400.0
 BASE_DMG = 25
 
 [node name="CollisionShapeDown" type="CollisionShape" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.740122, 0 )
 shape = SubResource( 1 )
 disabled = true
 script = ExtResource( 3 )
@@ -238,6 +239,7 @@ active = true
 parameters/monster_fsm/playback = SubResource( 19 )
 
 [node name="MarionetteModel" parent="." index="5"]
+transform = Transform( 0.207065, 0, 0, 0, 0.207065, 0, 0, 0, 0.207065, 0.002, 0, 0 )
 script = ExtResource( 3 )
 
 [node name="Skeleton" parent="MarionetteModel" index="0"]

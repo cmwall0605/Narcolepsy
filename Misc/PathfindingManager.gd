@@ -14,6 +14,8 @@ func deqeue_path_request():
     return
   var calc_path_info = queue.pop_front()
   var agent: Spatial = calc_path_info.agent
+  if !is_instance_valid(agent):
+    return
   var nav: Navigation = calc_path_info.nav
   var start_pos = agent.global_transform.origin
   var end_pos = agent.get_target_move_pos()

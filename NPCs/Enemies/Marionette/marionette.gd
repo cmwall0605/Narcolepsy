@@ -61,7 +61,7 @@ var can_attack : bool = false
 var pm_last_known_pos : Vector3
 var	searched_last_pos : bool = false
 var is_at_origin : bool = false
-var velocity : Vector3 = Vector3.ZERO
+var direction : Vector3 = Vector3.ZERO
 var path = []
 var path_ind = 0
 var last_straight_line_check = false
@@ -233,14 +233,19 @@ func handle_movement(delta):
   if(should_move):
     # Update the movement vector of the monster using the pathfinding node
     update_move_vec()
-    # If the velocity of the movement is less than 0.1, trigger the movement
+    # If the direction of the movement is less than 0.1, trigger the movement
     # animation. Otherwise trigger the idle movement.
+    print(global_transform.origin)
+    # Move using the velocity vector.
+    var velocity = direction * MOVEMENT_SPEED
+    if !is_on_floor():
+      velocity += Vector3(0, -1, 0)
     if velocity.length() > 0.1:
       anim_fsm.travel("move")
     else:
       anim_fsm.travel("idle_low")
-    # Move using the velocity vector.
-    var _movement = move_and_slide(velocity * MOVEMENT_SPEED, Vector3.UP)
+    print(velocity)
+    var _movement = move_and_slide(velocity, Vector3.UP, false, 4, 1, true)
 
 # Function called from the shotgun when the player fires it.
 func _bullet_hit(_damage, _part, _pos):
@@ -252,32 +257,30 @@ func _bullet_hit(_damage, _part, _pos):
 
 func get_target_move_pos():
   var actual_target = pm_target.global_transform.origin
-  actual_target.y = 0.0
   return actual_target
 
 func update_move_vec():
-
   var our_pos = global_transform.origin
-
   var straight_line_check = can_move_in_straight_line()
-
   if !straight_line_check:
     if last_straight_line_check:
       path = [get_target_move_pos()]
       path_ind = 0
-    PathfindingManager.calc_path(self, nav)
+      PathfindingManager.calc_path(self, nav)
 
   if straight_line_check:
     var target_pos = get_target_move_pos()
-    velocity = our_pos.direction_to(target_pos)
-    velocity = velocity.normalized()
+    direction = our_pos.direction_to(target_pos)
+    direction = direction.normalized()
   elif path_ind < path.size():
     var next_path_pos = path[path_ind]
+    our_pos.y = next_path_pos.y
     while our_pos.distance_squared_to(next_path_pos) < 0.1 * 0.1 and path_ind < path.size() - 1:
       path_ind += 1
       next_path_pos = path[path_ind]
-    velocity = our_pos.direction_to(next_path_pos)
-    velocity = velocity.normalized()
+      our_pos.y = next_path_pos.y
+    direction = our_pos.direction_to(next_path_pos)
+    direction = direction.normalized()
   last_straight_line_check = straight_line_check
 
 func can_move_in_straight_line():
